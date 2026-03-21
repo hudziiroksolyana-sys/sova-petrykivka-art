@@ -168,9 +168,40 @@ html {
 
 .actions {
   display: flex;
+  align-items: center;
   gap: 12px;
   font-size: 18px;
   cursor: pointer;
+}
+
+.header-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid #d7d1cd;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.header-langbtn {
+  border: none;
+  background: transparent;
+  color: #111;
+  border-radius: 999px;
+  padding: 8px 10px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.header-langbtn.is-active,
+.header-langbtn:hover {
+  background: #75162E;
+  color: #fff;
 }
 
 .actions img {

@@ -11,7 +11,7 @@ export default function Header({ menuOpen, onMenuToggle }) {
   const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const t = translations[language].header;
 
   const handleCartOpen = () => {
@@ -94,6 +94,23 @@ export default function Header({ menuOpen, onMenuToggle }) {
         </nav>
 
         <div className="actions">
+          <div className="header-lang" aria-label="Language switcher">
+            <button
+              className={`header-langbtn${language === "uk" ? " is-active" : ""}`}
+              type="button"
+              onClick={() => setLanguage("uk")}
+            >
+              UA
+            </button>
+            <button
+              className={`header-langbtn${language === "en" ? " is-active" : ""}`}
+              type="button"
+              onClick={() => setLanguage("en")}
+            >
+              EN
+            </button>
+          </div>
+
           <button
             type="button"
             className="cart cart-trigger"
