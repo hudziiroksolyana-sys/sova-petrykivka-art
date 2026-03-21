@@ -2,8 +2,15 @@ import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo/logo.svg";
 import cartIcon from "../../assets/icons/cart.svg";
 import languageIcon from "../../assets/icons/language.svg";
+import { useLanguage } from "../../context/LanguageContext";
+import { translations } from "../../lib/translations";
 
 export default function MobileMenu({ isOpen, onClose }) {
+  const { language, setLanguage } = useLanguage();
+  const headerText = translations[language].header;
+  const menuText = translations[language].mobileMenu;
+  const quoteLines = menuText.quote.split("\n");
+
   return (
     <div className={`mobilemenu ${isOpen ? "is-open" : ""}`} onClick={onClose}>
       <div className="mobilemenu-panel" onClick={(e) => e.stopPropagation()}>
@@ -13,7 +20,7 @@ export default function MobileMenu({ isOpen, onClose }) {
             className="header-burger mobilemenu-close is-open"
             type="button"
             onClick={onClose}
-            aria-label="close"
+            aria-label={menuText.close}
           >
             <span />
             <span />
@@ -36,25 +43,25 @@ export default function MobileMenu({ isOpen, onClose }) {
           {/* LINKS */}
           <nav className="mobilemenu-links">
             <NavLink to="/" className="mobilemenu-link" onClick={onClose}>
-              Головна
+              {headerText.home}
             </NavLink>
             <NavLink to="/about" className="mobilemenu-link" onClick={onClose}>
-              Про нас
+              {headerText.about}
             </NavLink>
             <NavLink to="/shop" className="mobilemenu-link" onClick={onClose}>
-              Магазин
+              {headerText.shop}
             </NavLink>
             <NavLink to="/classes" className="mobilemenu-link" onClick={onClose}>
-              Майстер-класи
+              {headerText.classes}
             </NavLink>
             <NavLink to="/gallery" className="mobilemenu-link" onClick={onClose}>
-              Галерея
+              {headerText.gallery}
             </NavLink>
             <NavLink to="/contacts" className="mobilemenu-link" onClick={onClose}>
-              Контакти
+              {headerText.contacts}
             </NavLink>
             <NavLink to="/wishlist" className="mobilemenu-link" onClick={onClose}>
-              Список бажань
+              {headerText.wishlist}
             </NavLink>
           </nav>
 
@@ -66,15 +73,12 @@ export default function MobileMenu({ isOpen, onClose }) {
             <div className="mobilemenu-quotes">“</div>
 
             <p className="mobilemenu-quoteText">
-              НЕХАЙ ПЕТРИКІВСЬКИЙ РОЗПИС
-              <br />
-              ПРИНАСИТЬ ВАМ КРАСУ,
-              <br />
-              СПОКІЙ І НАДХНЕННЯ.
-              <br />
-              ТВОРІТЬ І РАДІЙТЕ РАЗОМ З
-              <br />
-              «SOVA»!
+              {quoteLines.map((line, index) => (
+                <span key={`${line}-${index}`}>
+                  {line}
+                  {index < quoteLines.length - 1 ? <br /> : null}
+                </span>
+              ))}
             </p>
 
             <div className="mobilemenu-quoteRow">
@@ -101,7 +105,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                       textLength="427"
                       lengthAdjust="spacing"
                     >
-                      Відчуй магію Петриківки·{"\u00A0"}
+                      {`${menuText.circleText}·\u00A0`}
                     </textPath>
                   </text>
                 </svg>
@@ -113,10 +117,20 @@ export default function MobileMenu({ isOpen, onClose }) {
           <div className="mobilemenu-bottom">
             <div className="mobilemenu-lang">
               <img className="mobilemenu-langicon" src={languageIcon} alt="language" />
-              <button className="is-active" type="button">
+              <button
+                className={language === "uk" ? "is-active" : ""}
+                type="button"
+                onClick={() => setLanguage("uk")}
+              >
                 UA
               </button>
-              <button type="button">EN</button>
+              <button
+                className={language === "en" ? "is-active" : ""}
+                type="button"
+                onClick={() => setLanguage("en")}
+              >
+                EN
+              </button>
             </div>
           </div>
         </div>

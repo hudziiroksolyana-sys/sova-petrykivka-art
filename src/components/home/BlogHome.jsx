@@ -1,8 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { posts } from "../../data/posts";
+import { getPosts } from "../../data/posts";
+import { useLanguage } from "../../context/LanguageContext";
+
+const blogHomeText = {
+  uk: {
+    title: "Блог / Новини",
+    more: "Більше",
+    prev: "Попередній допис",
+    next: "Наступний допис",
+  },
+  en: {
+    title: "Blog / News",
+    more: "More",
+    prev: "Previous post",
+    next: "Next post",
+  },
+};
 
 export default function BlogHome() {
+  const { language } = useLanguage();
+  const posts = getPosts(language);
+  const t = blogHomeText[language];
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -17,6 +36,7 @@ export default function BlogHome() {
     setIsAnimating(true);
     setIndex((i) => (i - 1 + posts.length) % posts.length);
   };
+
   const next = () => {
     if (isAnimating) return;
     setDirection(1);
@@ -26,27 +46,33 @@ export default function BlogHome() {
 
   useEffect(() => {
     if (!isAnimating) return;
-    const t = setTimeout(() => setIsAnimating(false), 260);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setIsAnimating(false), 260);
+    return () => clearTimeout(timer);
   }, [isAnimating]);
+
+  useEffect(() => {
+    setIndex(0);
+    setDirection(0);
+    setIsAnimating(false);
+  }, [language]);
 
   return (
     <section className="bloghome">
       <div className="bloghome-container">
-        <h2 className="bloghome-title">Блог / Новини</h2>
+        <h2 className="bloghome-title">{t.title}</h2>
 
         <div className="bloghome-wrap">
           <div
             className={`bloghome-card${isAnimating ? (direction === 1 ? " is-next" : " is-prev") : ""}`}
             onTouchStart={(e) => {
-              const t = e.touches[0];
-              touchStartX.current = t.clientX;
-              touchStartY.current = t.clientY;
+              const touch = e.touches[0];
+              touchStartX.current = touch.clientX;
+              touchStartY.current = touch.clientY;
             }}
             onTouchEnd={(e) => {
-              const t = e.changedTouches[0];
-              const dx = t.clientX - touchStartX.current;
-              const dy = t.clientY - touchStartY.current;
+              const touch = e.changedTouches[0];
+              const dx = touch.clientX - touchStartX.current;
+              const dy = touch.clientY - touchStartY.current;
               if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
                 suppressClick.current = true;
                 if (dx < 0) next();
@@ -61,7 +87,7 @@ export default function BlogHome() {
                 e.preventDefault();
                 prev();
               }}
-              aria-label="prev"
+              aria-label={t.prev}
             />
 
             <img className="bloghome-img" src={item.cover} alt={item.title} />
@@ -79,7 +105,7 @@ export default function BlogHome() {
                   }
                 }}
               >
-                <span className="bloghome-moretext">Більше</span>
+                <span className="bloghome-moretext">{t.more}</span>
                 <span className="bloghome-morecircle" aria-hidden="true">
                   <span className="bloghome-morearrow">↗</span>
                 </span>
@@ -93,7 +119,7 @@ export default function BlogHome() {
                 e.preventDefault();
                 next();
               }}
-              aria-label="next"
+              aria-label={t.next}
             />
           </div>
         </div>

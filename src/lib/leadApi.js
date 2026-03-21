@@ -1,7 +1,22 @@
 const DEFAULT_API_URL = "/api/telegram-lead";
+const FALLBACK_API_URL = "https://sova-petrykivka-art.vercel.app/api/telegram-lead";
+
+function resolveApiUrl() {
+  const customApiUrl = (import.meta.env.VITE_LEADS_API_URL || "").trim();
+  if (customApiUrl) return customApiUrl;
+
+  if (typeof window !== "undefined") {
+    const { origin, hostname } = window.location;
+    if (hostname === "sova-petrykivka-art.vercel.app" || hostname === "localhost" || hostname === "127.0.0.1") {
+      return `${origin}${DEFAULT_API_URL}`;
+    }
+  }
+
+  return FALLBACK_API_URL;
+}
 
 export async function sendLead(payload) {
-  const apiUrl = (import.meta.env.VITE_LEADS_API_URL || DEFAULT_API_URL).trim();
+  const apiUrl = resolveApiUrl();
   const response = await fetch(apiUrl, {
     method: "POST",
     headers: {

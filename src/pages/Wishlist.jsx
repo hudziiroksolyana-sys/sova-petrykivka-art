@@ -1,8 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PRODUCTS } from "../data/products";
+import { getProducts } from "../data/products";
+import { useLanguage } from "../context/LanguageContext";
+
+const wishlistText = {
+  uk: {
+    title: "Список бажань",
+    empty: "У списку бажань поки немає товарів.",
+    continue: "Продовжити покупки",
+    favorite: "Улюблене",
+    addToCart: "Додати в кошик",
+  },
+  en: {
+    title: "Wishlist",
+    empty: "Your wishlist is empty for now.",
+    continue: "Continue shopping",
+    favorite: "Favorite",
+    addToCart: "Add to cart",
+  },
+};
 
 export default function Wishlist() {
+  const { language } = useLanguage();
+  const t = wishlistText[language];
+  const products = useMemo(() => getProducts(language), [language]);
   const [favorites, setFavorites] = useState(new Set());
   const [cart, setCart] = useState(new Map());
   const navigate = useNavigate();
@@ -48,11 +69,8 @@ export default function Wishlist() {
   const toggleFavorite = (id) => {
     setFavorites((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       saveFavorites(next);
       return next;
     });
@@ -83,13 +101,13 @@ export default function Wishlist() {
     };
   }, []);
 
-  const favoriteItems = PRODUCTS.filter((item) => favorites.has(item.id));
+  const favoriteItems = products.filter((item) => favorites.has(item.id));
 
   return (
     <div className="wishlist-page">
       <section className="wishlist-title-wrap">
         <div className="wishlist-title-container">
-          <h1 className="wishlist-title">Список бажань</h1>
+          <h1 className="wishlist-title">{t.title}</h1>
           <div className="wishlist-divider" />
         </div>
       </section>
@@ -98,9 +116,9 @@ export default function Wishlist() {
         <div className="wishlist-container">
           {favoriteItems.length === 0 ? (
             <div className="wishlist-empty">
-              <p>У списку бажань поки немає товарів.</p>
+              <p>{t.empty}</p>
               <button type="button" className="wishlist-continue bloghome-more" onClick={() => navigate("/shop")}>
-                <span className="bloghome-moretext">Продовжити покупки</span>
+                <span className="bloghome-moretext">{t.continue}</span>
                 <span className="bloghome-morecircle" aria-hidden="true">
                   <span className="bloghome-morearrow">↗</span>
                 </span>
@@ -121,12 +139,22 @@ export default function Wishlist() {
                     </div>
                     <h3 className="shop-product-title">
                       {(() => {
-                        const [name, subtitle] = item.title.split(" «");
-                        return subtitle ? (
+                        const [name, subtitle] = item.title.split(" “");
+                        if (subtitle) {
+                          return (
+                            <>
+                              {name}
+                              <br />
+                              {`“${subtitle}`}
+                            </>
+                          );
+                        }
+                        const [ukName, ukSubtitle] = item.title.split(" «");
+                        return ukSubtitle ? (
                           <>
-                            {name}
+                            {ukName}
                             <br />
-                            {"«" + subtitle}
+                            {`«${ukSubtitle}`}
                           </>
                         ) : item.title;
                       })()}
@@ -137,7 +165,7 @@ export default function Wishlist() {
                         <button
                           type="button"
                           className={`shop-icon-btn${favorites.has(item.id) ? " is-active" : ""}`}
-                          aria-label="Улюблене"
+                          aria-label={t.favorite}
                           aria-pressed={favorites.has(item.id)}
                           onClick={() => toggleFavorite(item.id)}
                         >
@@ -148,7 +176,7 @@ export default function Wishlist() {
                         <button
                           type="button"
                           className={`shop-icon-btn${(cart.get(item.id) || 0) > 0 ? " is-active" : ""}${item.inStock === false ? " is-disabled" : ""}`}
-                          aria-label="Додати в кошик"
+                          aria-label={t.addToCart}
                           disabled={item.inStock === false}
                           onClick={() => addToCart(item.id)}
                         >
@@ -163,7 +191,7 @@ export default function Wishlist() {
               </div>
 
               <button type="button" className="wishlist-continue bloghome-more" onClick={() => navigate("/shop")}>
-                <span className="bloghome-moretext">Продовжити покупки</span>
+                <span className="bloghome-moretext">{t.continue}</span>
                 <span className="bloghome-morecircle" aria-hidden="true">
                   <span className="bloghome-morearrow">↗</span>
                 </span>

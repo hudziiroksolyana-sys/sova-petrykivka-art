@@ -4,22 +4,22 @@ import { useState, useEffect, useLayoutEffect } from "react";
 import Header from "./Header";
 import Footer from "../Footer/Footer";
 import MobileMenu from "./MobileMenu";
+import { useLanguage } from "../../context/LanguageContext";
+import { translations } from "../../lib/translations";
 
 export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const location = useLocation();
+  const { language } = useLanguage();
+  const layoutText = translations[language].layout;
 
   useEffect(() => {
     if (!menuOpen) return undefined;
 
     const isMobile = window.matchMedia("(max-width: 900px)").matches;
     if (isMobile) {
-      const previousBodyOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = previousBodyOverflow;
-      };
+      return undefined;
     }
 
     const scrollY = window.scrollY;
@@ -71,11 +71,27 @@ export default function Layout() {
   }, []);
 
   useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-
-  useEffect(() => {
     setMenuOpen(false);
+
+    const bodyStyle = document.body.style;
+    const htmlStyle = document.documentElement.style;
+    bodyStyle.overflow = "";
+    bodyStyle.position = "";
+    bodyStyle.top = "";
+    bodyStyle.left = "";
+    bodyStyle.right = "";
+    bodyStyle.width = "";
+    bodyStyle.paddingRight = "";
+    htmlStyle.overflow = "";
+    htmlStyle.position = "";
+    htmlStyle.height = "";
+
+    const headerEl = document.querySelector(".header");
+    if (headerEl) {
+      headerEl.style.paddingRight = "";
+    }
+
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -110,7 +126,7 @@ export default function Layout() {
         type="button"
         className={`scroll-top ${showScrollTop ? "is-visible" : ""}`}
         onClick={scrollToTop}
-        aria-label="Повернутися нагору"
+        aria-label={layoutText.scrollTop}
       >
         <svg viewBox="0 0 48 48" aria-hidden="true">
           <path

@@ -1,21 +1,89 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { PRODUCTS } from "../data/products";
+import { SHOP_CATEGORIES, getProducts } from "../data/products";
+import { useLanguage } from "../context/LanguageContext";
+
+const shopText = {
+  uk: {
+    all: "Всі",
+    title: "Магазин «Sova»",
+    subtitle: "Авторський Петриківський розпис для дому,\nподарунків і особливих подій",
+    categories: "Категорії товарів:",
+    favorite: "Улюблене",
+    addToCart: "Додати в кошик",
+    more: "Детальніше",
+    emptyCategory: "Поки що немає товарів у цій категорії.",
+    loadMore: "Більше",
+    ctaTitle: "Хочете особливий розпис?",
+    ctaText: "Опишіть ідею, формат і кольори — ми запропонуємо ескіз і підберемо матеріали",
+    ctaButton: "Залишити заявку",
+    close: "Закрити",
+    outOfStock: "Немає в наявності",
+    inStock: "В наявності",
+    request: "Залишити заявку",
+    addToCartBtn: "Додати до кошика",
+    cartLabel: "Ваш кошик",
+    cartTitle: "Ваш кошик",
+    cartEmpty: "Кошик порожній.",
+    remove: "Видалити",
+    decrease: "Зменшити",
+    increase: "Збільшити",
+    total: "Загальна сума:",
+    items: "Товарів:",
+    pay: "Оплатити",
+  },
+  en: {
+    all: "All",
+    title: "Sova Shop",
+    subtitle: "Original Petrykivka art for the home,\ngifts, and special occasions",
+    categories: "Product categories:",
+    favorite: "Favorite",
+    addToCart: "Add to cart",
+    more: "Details",
+    emptyCategory: "There are no products in this category yet.",
+    loadMore: "More",
+    ctaTitle: "Looking for a custom piece?",
+    ctaText: "Tell us about your idea, size, and colors, and we will suggest a sketch and materials",
+    ctaButton: "Leave a request",
+    close: "Close",
+    outOfStock: "Out of stock",
+    inStock: "In stock",
+    request: "Leave a request",
+    addToCartBtn: "Add to cart",
+    cartLabel: "Your cart",
+    cartTitle: "Your cart",
+    cartEmpty: "Your cart is empty.",
+    remove: "Remove",
+    decrease: "Decrease",
+    increase: "Increase",
+    total: "Total:",
+    items: "Items:",
+    pay: "Pay",
+  },
+};
 
 export default function Shop() {
+  const { language } = useLanguage();
+  const t = shopText[language];
+  const products = useMemo(() => getProducts(language), [language]);
+  const categories = SHOP_CATEGORIES[language];
   const navigate = useNavigate();
   const location = useLocation();
   const [activeProduct, setActiveProduct] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12);
-  const [activeCategory, setActiveCategory] = useState("Всі");
+  const [activeCategory, setActiveCategory] = useState(t.all);
   const [favorites, setFavorites] = useState(new Set());
   const [cart, setCart] = useState(new Map());
   const productsGridRef = useRef(null);
 
-  const filteredProducts = activeCategory === "Всі"
-    ? PRODUCTS
-    : PRODUCTS.filter((item) => item.category === activeCategory);
+  useEffect(() => {
+    setActiveCategory(t.all);
+  }, [t.all]);
+
+  const filteredProducts = activeCategory === t.all
+    ? products
+    : products.filter((item) => item.category === activeCategory);
 
   const syncCounts = () => {
     window.dispatchEvent(new Event("sova:counts"));
@@ -36,9 +104,7 @@ export default function Shop() {
       if (!Array.isArray(raw)) return new Map();
       const next = new Map();
       raw.forEach((item) => {
-        if (item?.id) {
-          next.set(item.id, item.qty || 1);
-        }
+        if (item?.id) next.set(item.id, item.qty || 1);
       });
       return next;
     } catch {
@@ -60,11 +126,8 @@ export default function Shop() {
   const toggleFavorite = (id) => {
     setFavorites((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       saveFavorites(next);
       return next;
     });
@@ -95,11 +158,8 @@ export default function Shop() {
       const next = new Map(prev);
       const current = next.get(id) || 0;
       const updated = current + delta;
-      if (updated <= 0) {
-        next.delete(id);
-      } else {
-        next.set(id, updated);
-      }
+      if (updated <= 0) next.delete(id);
+      else next.set(id, updated);
       saveCart(next);
       return next;
     });
@@ -107,7 +167,7 @@ export default function Shop() {
 
   const cartItems = Array.from(cart.entries())
     .map(([id, qty]) => {
-      const product = PRODUCTS.find((item) => item.id === id);
+      const product = products.find((item) => item.id === id);
       if (!product) return null;
       return { ...product, qty };
     })
@@ -116,7 +176,7 @@ export default function Shop() {
   const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
   const parsePrice = (price) => Number(String(price).replace(/[^\d]/g, "")) || 0;
   const cartTotal = cartItems.reduce((sum, item) => sum + parsePrice(item.price) * item.qty, 0);
-  const formatPrice = (value) => `${new Intl.NumberFormat("uk-UA").format(value)} ₴`;
+  const formatPrice = (value) => `${new Intl.NumberFormat(language === "en" ? "en-GB" : "uk-UA").format(value)} ₴`;
 
   const handleAddToCart = (id) => {
     addToCart(id);
@@ -130,19 +190,15 @@ export default function Shop() {
   };
 
   useEffect(() => {
-    const favs = loadFavorites();
-    const cartData = loadCart();
-    setFavorites(favs);
-    setCart(cartData);
+    setFavorites(loadFavorites());
+    setCart(loadCart());
     syncCounts();
   }, []);
 
   useEffect(() => {
     const openCart = () => setIsCartOpen(true);
     window.addEventListener("sova:open-cart", openCart);
-    return () => {
-      window.removeEventListener("sova:open-cart", openCart);
-    };
+    return () => window.removeEventListener("sova:open-cart", openCart);
   }, []);
 
   useEffect(() => {
@@ -188,9 +244,7 @@ export default function Shop() {
       document.body.style.width = previousBodyWidth;
       document.body.style.paddingRight = previousBodyPaddingRight;
       if (headerEl) headerEl.style.paddingRight = previousHeaderPaddingRight;
-      if (window.location.pathname === "/shop") {
-        window.scrollTo(0, scrollY);
-      }
+      if (window.location.pathname === "/shop") window.scrollTo(0, scrollY);
     };
   }, [activeProduct, isCartOpen]);
 
@@ -219,19 +273,34 @@ export default function Shop() {
     );
 
     cards.forEach((card) => revealObserver.observe(card));
-
     return () => revealObserver.disconnect();
-  }, [activeCategory, visibleCount]);
+  }, [activeCategory, visibleCount, language]);
+
+  const splitTitle = (title) => {
+    const marker = language === "en" ? " “" : " «";
+    const quote = language === "en" ? "“" : "«";
+    const [name, subtitle] = title.split(marker);
+    return subtitle ? (
+      <>
+        {name}
+        <br />
+        {quote + subtitle}
+      </>
+    ) : title;
+  };
 
   return (
     <div className="shop-page">
       <section className="shop-title">
         <div className="shop-title-container">
-          <h1 className="shop-title-text">Магазин «Sova»</h1>
+          <h1 className="shop-title-text">{t.title}</h1>
           <p className="shop-title-subtitle">
-            Авторський Петриківський розпис для дому,
-            <br />
-            подарунків і особливих подій
+            {t.subtitle.split("\n").map((line, index, lines) => (
+              <span key={`${line}-${index}`}>
+                {line}
+                {index < lines.length - 1 ? <br /> : null}
+              </span>
+            ))}
           </p>
           <div className="shop-title-divider" />
         </div>
@@ -240,18 +309,9 @@ export default function Shop() {
       <section className="shop-main">
         <div className="shop-main-container">
           <div className="shop-filters-row">
-            <h2 className="shop-filter-title">Категорії товарів:</h2>
+            <h2 className="shop-filter-title">{t.categories}</h2>
             <div className="shop-categories">
-              {[
-                "Всі",
-                "Предмети побуту",
-                "Картини",
-                "Чашки",
-                "Тарілки",
-                "Скриньки",
-                "Декор",
-                "Панно",
-              ].map((label) => (
+              {categories.map((label) => (
                 <button
                   key={label}
                   type="button"
@@ -278,25 +338,14 @@ export default function Shop() {
                     alt={item.title}
                   />
                 </div>
-                <h3 className="shop-product-title">
-                  {(() => {
-                    const [name, subtitle] = item.title.split(" «");
-                    return subtitle ? (
-                      <>
-                        {name}
-                        <br />
-                        {"«" + subtitle}
-                      </>
-                    ) : item.title;
-                  })()}
-                </h3>
+                <h3 className="shop-product-title">{splitTitle(item.title)}</h3>
                 <div className="shop-product-footer">
                   <span className="shop-product-price">{item.price}</span>
                   <div className="shop-product-actions">
                     <button
                       type="button"
                       className={`shop-icon-btn${favorites.has(item.id) ? " is-active" : ""}`}
-                      aria-label="Улюблене"
+                      aria-label={t.favorite}
                       aria-pressed={favorites.has(item.id)}
                       onClick={() => toggleFavorite(item.id)}
                     >
@@ -307,7 +356,7 @@ export default function Shop() {
                     <button
                       type="button"
                       className={`shop-icon-btn${(cart.get(item.id) || 0) > 0 ? " is-active" : ""}${item.inStock === false ? " is-disabled" : ""}`}
-                      aria-label="Додати в кошик"
+                      aria-label={t.addToCart}
                       disabled={item.inStock === false}
                       onClick={() => handleAddToCart(item.id)}
                     >
@@ -317,28 +366,22 @@ export default function Shop() {
                     </button>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className="shop-product-more"
-                  onClick={() => setActiveProduct(item)}
-                >
-                  Детальніше
+                <button type="button" className="shop-product-more" onClick={() => setActiveProduct(item)}>
+                  {t.more}
                 </button>
               </article>
             ))}
           </div>
 
           <div className="shop-loadmore">
-            {filteredProducts.length === 0 && (
-              <p className="shop-loadmore-note">Поки що немає товарів у цій категорії.</p>
-            )}
+            {filteredProducts.length === 0 && <p className="shop-loadmore-note">{t.emptyCategory}</p>}
             {visibleCount < filteredProducts.length && (
               <button
                 type="button"
                 className="shop-loadmore-btn bloghome-more"
                 onClick={() => setVisibleCount((count) => Math.min(count + 3, filteredProducts.length))}
               >
-                <span className="bloghome-moretext">Більше</span>
+                <span className="bloghome-moretext">{t.loadMore}</span>
                 <span className="bloghome-morecircle" aria-hidden="true">
                   <span className="bloghome-morearrow">↗</span>
                 </span>
@@ -346,7 +389,7 @@ export default function Shop() {
             )}
             {filteredProducts.length > 0 && (
               <p className="shop-loadmore-note">
-                {Math.min(visibleCount, filteredProducts.length)} із {filteredProducts.length}
+                {Math.min(visibleCount, filteredProducts.length)} / {filteredProducts.length}
               </p>
             )}
           </div>
@@ -357,12 +400,10 @@ export default function Shop() {
         <div className="shop-section-container">
           <div className="shop-cta">
             <div>
-              <h2 className="shop-cta-title">Хочете особливий розпис?</h2>
-              <p className="shop-cta-text">
-                Опишіть ідею, формат і кольори — ми запропонуємо ескіз і підберемо матеріали
-              </p>
+              <h2 className="shop-cta-title">{t.ctaTitle}</h2>
+              <p className="shop-cta-text">{t.ctaText}</p>
             </div>
-            <button type="button" className="shop-cta-btn" onClick={handleOpenRequest}>Залишити заявку</button>
+            <button type="button" className="shop-cta-btn" onClick={handleOpenRequest}>{t.ctaButton}</button>
           </div>
         </div>
       </section>
@@ -371,12 +412,7 @@ export default function Shop() {
         <div className="shop-modal" role="dialog" aria-modal="true">
           <div className="shop-modal-backdrop" onClick={() => setActiveProduct(null)} />
           <div className="shop-modal-card">
-            <button
-              type="button"
-              className="shop-modal-close"
-              onClick={() => setActiveProduct(null)}
-              aria-label="Закрити"
-            >
+            <button type="button" className="shop-modal-close" onClick={() => setActiveProduct(null)} aria-label={t.close}>
               <span className="shop-modal-close-line shop-modal-close-line--a" />
               <span className="shop-modal-close-line shop-modal-close-line--b" />
             </button>
@@ -388,7 +424,7 @@ export default function Shop() {
                 <p className="shop-modal-kicker">{activeProduct.material}</p>
                 <h2 className="shop-modal-title">{activeProduct.title}</h2>
                 <p className={`shop-modal-stock${activeProduct.inStock === false ? " is-out" : ""}`}>
-                  {activeProduct.inStock === false ? "Немає в наявності" : "В наявності"}
+                  {activeProduct.inStock === false ? t.outOfStock : t.inStock}
                 </p>
                 <p className="shop-modal-description">{activeProduct.description}</p>
                 <ul className="shop-modal-list">
@@ -400,14 +436,12 @@ export default function Shop() {
                   <span className="shop-modal-price">{activeProduct.price}</span>
                   <div className="shop-modal-buttons">
                     {activeProduct.inStock === false ? (
-                      <button type="button" className="shop-product-more shop-modal-request-btn" onClick={handleOpenRequest}>Залишити заявку</button>
+                      <button type="button" className="shop-product-more shop-modal-request-btn" onClick={handleOpenRequest}>
+                        {t.request}
+                      </button>
                     ) : (
-                      <button
-                        type="button"
-                        className="shop-btn shop-btn--primary shop-modal-cart-btn"
-                        onClick={() => handleAddToCart(activeProduct.id)}
-                      >
-                        Додати до кошика
+                      <button type="button" className="shop-btn shop-btn--primary shop-modal-cart-btn" onClick={() => handleAddToCart(activeProduct.id)}>
+                        {t.addToCartBtn}
                       </button>
                     )}
                   </div>
@@ -417,22 +451,18 @@ export default function Shop() {
           </div>
         </div>
       )}
+
       {isCartOpen && (
-        <div className="shop-cart-modal" role="dialog" aria-modal="true" aria-label="Ваш кошик">
+        <div className="shop-cart-modal" role="dialog" aria-modal="true" aria-label={t.cartLabel}>
           <div className="shop-cart-backdrop" onClick={() => setIsCartOpen(false)} />
           <aside className="shop-cart-drawer">
-            <button
-              type="button"
-              className="shop-modal-close shop-cart-close"
-              onClick={() => setIsCartOpen(false)}
-              aria-label="Закрити кошик"
-            >
+            <button type="button" className="shop-modal-close shop-cart-close" onClick={() => setIsCartOpen(false)} aria-label={t.close}>
               <span className="shop-modal-close-line shop-modal-close-line--a" />
               <span className="shop-modal-close-line shop-modal-close-line--b" />
             </button>
-            <h2 className="shop-cart-title">Ваш кошик</h2>
+            <h2 className="shop-cart-title">{t.cartTitle}</h2>
             {cartItems.length === 0 ? (
-              <p className="shop-cart-empty">Кошик порожній.</p>
+              <p className="shop-cart-empty">{t.cartEmpty}</p>
             ) : (
               <>
                 <ul className="shop-cart-list">
@@ -445,17 +475,13 @@ export default function Shop() {
                         <p className="shop-cart-item-meta">{item.details?.[0] || ""}</p>
                         <p className="shop-cart-item-price">{formatPrice(parsePrice(item.price) * item.qty)}</p>
                         <div className="shop-cart-item-actions">
-                          <button
-                            type="button"
-                            className="shop-cart-item-remove"
-                            onClick={() => removeFromCart(item.id)}
-                          >
-                            Видалити
+                          <button type="button" className="shop-cart-item-remove" onClick={() => removeFromCart(item.id)}>
+                            {t.remove}
                           </button>
                           <div className="shop-cart-item-controls">
-                            <button type="button" onClick={() => changeCartQty(item.id, -1)} aria-label="Зменшити">-</button>
+                            <button type="button" onClick={() => changeCartQty(item.id, -1)} aria-label={t.decrease}>-</button>
                             <span>{item.qty}</span>
-                            <button type="button" onClick={() => changeCartQty(item.id, 1)} aria-label="Збільшити">+</button>
+                            <button type="button" onClick={() => changeCartQty(item.id, 1)} aria-label={t.increase}>+</button>
                           </div>
                         </div>
                       </div>
@@ -464,12 +490,12 @@ export default function Shop() {
                 </ul>
                 <div className="shop-cart-footer">
                   <p className="shop-cart-total">
-                    Загальна сума: <span className="shop-cart-total-value">{formatPrice(cartTotal)}</span>
+                    {t.total} <span className="shop-cart-total-value">{formatPrice(cartTotal)}</span>
                   </p>
-                  <p className="shop-cart-count">Товарів: {cartCount}</p>
+                  <p className="shop-cart-count">{t.items} {cartCount}</p>
                 </div>
                 <button type="button" className="shop-cart-pay-btn" onClick={() => navigate("/checkout")}>
-                  Оплатити
+                  {t.pay}
                 </button>
               </>
             )}

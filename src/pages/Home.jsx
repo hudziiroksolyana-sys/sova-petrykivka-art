@@ -16,6 +16,8 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 import BlogHome from "../components/home/BlogHome";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../lib/translations";
 
 
 export default function Home() {
@@ -23,6 +25,8 @@ export default function Home() {
   const homeRef = useRef(null);
   const [canAtStart, setCanAtStart] = useState(true);
   const [canAtEnd, setCanAtEnd] = useState(false);
+  const { language } = useLanguage();
+  const t = translations[language].home;
 
   const scrollCanGrid = (direction) => {
     const grid = canGridRef.current;
@@ -85,31 +89,35 @@ export default function Home() {
         <div className="hero-container home-reveal" data-reveal="up">
           <div className="hero-text home-reveal" data-reveal="up">
             <h1 className="hero-title">
-              «Живий Петриківський<br />
-              розпис у сучасному житті»
+              {t.title.split("\n").map((line, index, lines) => (
+                <span key={`${line}-${index}`}>
+                  {line}
+                  {index < lines.length - 1 ? <br /> : null}
+                </span>
+              ))}
             </h1>
 
             <p className="hero-subtitle">
-              Авторські роботи та навчання від Nataliia Spyrydonova
+              {t.subtitle}
             </p>
 
-            <div className="hero-meta" aria-label="Ключові переваги">
-              <span className="hero-meta-item">Ручний розпис</span>
-              <span className="hero-meta-item">Традиція + сучасність</span>
-              <span className="hero-meta-item">Майстер-класи наживо</span>
+            <div className="hero-meta" aria-label={t.heroMetaLabel}>
+              {t.heroMeta.map((item) => (
+                <span key={item} className="hero-meta-item">{item}</span>
+              ))}
             </div>
           </div>
 
           <div className="hero-images home-reveal" data-reveal="scale">
             <div className="hero-card">
-              <img src={heroLeft} alt="Петриківський розпис" />
-              <Link to="/shop" className="hero-chip hero-chip--glass">Магазин</Link>
+              <img src={heroLeft} alt={t.heroLeftAlt} />
+              <Link to="/shop" className="hero-chip hero-chip--glass">{t.heroShop}</Link>
             </div>
 
             <div className="hero-card">
-              <img src={heroRight} alt="Майстер-клас" />
+              <img src={heroRight} alt={t.heroRightAlt} />
               <Link to="/classes" className="hero-chip hero-chip--glass hero-chip--long">
-                Майстер-класи
+                {t.heroClasses}
               </Link>
             </div>
           </div>
@@ -131,38 +139,38 @@ export default function Home() {
         </div>
 
         <p className="sova-description home-reveal" data-reveal="up">
-          Це місце, де українські традиції оживають у кожному мазку
+          {t.sovaDescription}
         </p>
       </section>
 
       {/* ===== can-section ===== */}
 <section className="can-section home-reveal" data-reveal="up">
   <div className="can-container">
-    <h2 className="can-title home-reveal" data-reveal="up">Тут ви можете:</h2>
+    <h2 className="can-title home-reveal" data-reveal="up">{t.canTitle}</h2>
 
     <div className="can-grid home-reveal" data-reveal="up" ref={canGridRef}>
       <div className="can-card can-card--overlay home-reveal" data-reveal="scale">
-        <img src={can1} alt="Замовити унікальні речі з ручним розписом" />
+        <img src={can1} alt={t.canCards[0]} />
         <div className="can-overlay">
           <p className="can-overlay-text">
-            Замовити унікальні речі з ручним розписом
+            {t.canCards[0]}
           </p>
         </div>
       </div>
 
       <div className="can-card can-card--overlay can-card--middle home-reveal" data-reveal="scale">
 
-        <img src={can2} alt="Придбати авторські картини" />
+        <img src={can2} alt={t.canCards[1]} />
         <div className="can-overlay">
-          <p className="can-overlay-text">Придбати авторські картини</p>
+          <p className="can-overlay-text">{t.canCards[1]}</p>
         </div>
       </div>
 
       <div className="can-card can-card--overlay home-reveal" data-reveal="scale">
-        <img src={can3} alt="Навчитися творити з нуля до шедевру" />
+        <img src={can3} alt={t.canCards[2]} />
         <div className="can-overlay">
           <p className="can-overlay-text">
-            Навчитися творити з нуля до шедевру
+            {t.canCards[2]}
           </p>
         </div>
       </div>
@@ -170,12 +178,12 @@ export default function Home() {
 
     <button
       className={`can-arrow can-arrow--left${canAtStart ? " is-hidden" : ""}`}
-      aria-label="Попередня картка"
+      aria-label={t.previousCard}
       onClick={() => scrollCanGrid(-1)}
     />
     <button
       className={`can-arrow can-arrow--right${canAtEnd ? " is-hidden" : ""}`}
-      aria-label="Наступна картка"
+      aria-label={t.nextCard}
       onClick={() => scrollCanGrid(1)}
     />
   </div>

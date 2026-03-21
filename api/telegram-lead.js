@@ -2,6 +2,12 @@ function normalize(value) {
   return String(value || "").trim();
 }
 
+function setCorsHeaders(res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+
 function buildMessage(payload) {
   const formType = normalize(payload.formType) || "unknown";
   const lines = [
@@ -20,6 +26,10 @@ function buildMessage(payload) {
       `Тема: ${normalize(payload.subject)}`,
       `Повідомлення: ${normalize(payload.message)}`
     );
+  } else if (formType === "footer-subscribe") {
+    lines.push(
+      `Email: ${normalize(payload.email)}`
+    );
   } else {
     lines.push(
       `Ім'я: ${normalize(payload.name)}`,
@@ -33,6 +43,12 @@ function buildMessage(payload) {
 }
 
 export default async function handler(req, res) {
+  setCorsHeaders(res);
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, message: "Method not allowed." });
   }

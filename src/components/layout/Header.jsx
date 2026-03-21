@@ -4,11 +4,15 @@ import { useEffect, useState } from "react";
 import cartIcon from "../../assets/icons/cart.svg";
 import heartIcon from "../../assets/icons/heart.svg";
 import logo from "../../assets/logo/logo.svg";
+import { useLanguage } from "../../context/LanguageContext";
+import { translations } from "../../lib/translations";
 
 export default function Header({ menuOpen, onMenuToggle }) {
   const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
+  const { language } = useLanguage();
+  const t = translations[language].header;
 
   const handleCartOpen = () => {
     if (location.pathname === "/shop") {
@@ -53,7 +57,7 @@ export default function Header({ menuOpen, onMenuToggle }) {
           <button
             className={`header-burger${menuOpen ? " is-open" : ""}`}
             type="button"
-            aria-label="menu"
+            aria-label={t.menu}
             aria-expanded={menuOpen}
             onClick={onMenuToggle}
           >
@@ -69,23 +73,23 @@ export default function Header({ menuOpen, onMenuToggle }) {
 
         <nav className="nav">
           <NavLink to="/about" className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}>
-            Про нас
+            {t.about}
           </NavLink>
 
           <NavLink to="/shop" className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}>
-            Магазин
+            {t.shop}
           </NavLink>
 
           <NavLink to="/classes" className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}>
-            Майстер-класи
+            {t.classes}
           </NavLink>
 
           <NavLink to="/gallery" className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}>
-            Галерея
+            {t.gallery}
           </NavLink>
 
           <NavLink to="/contacts" className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}>
-            Контакти
+            {t.contacts}
           </NavLink>
         </nav>
 
@@ -94,7 +98,7 @@ export default function Header({ menuOpen, onMenuToggle }) {
             type="button"
             className="cart cart-trigger"
             onClick={handleCartOpen}
-            aria-label="Відкрити кошик"
+            aria-label={t.openCart}
           >
             <img src={cartIcon} alt="cart" />
             <span className="cart-badge">{cartCount}</span>
@@ -104,7 +108,7 @@ export default function Header({ menuOpen, onMenuToggle }) {
             type="button"
             className="cart cart-trigger wishlist-trigger"
             onClick={() => navigate("/wishlist")}
-            aria-label="Відкрити список бажань"
+            aria-label={t.openWishlist}
           >
             <img src={heartIcon} alt="favorites" />
           </button>
