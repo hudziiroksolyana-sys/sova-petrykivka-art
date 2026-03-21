@@ -136,7 +136,7 @@ export default function About() {
   const { language } = useLanguage();
   const t = useMemo(() => aboutContent[language], [language]);
   const aboutCircleText = t.circleText;
-  const aboutCircleTextRing = `${t.circleText} ${t.circleText} `;
+  const aboutCircleTextRing = `${t.circleText} `;
   const aboutRef = useRef(null);
   const achievementsGridRef = useRef(null);
   const [achievementsAtStart, setAchievementsAtStart] = useState(true);
@@ -218,7 +218,7 @@ export default function About() {
                   <path id="aboutCirclePath" d="M124,124 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0" />
                 </defs>
                 <text>
-                  <textPath href="#aboutCirclePath" startOffset="50%" textAnchor="middle">
+                  <textPath href="#aboutCirclePath" startOffset="50%" textAnchor="middle" textLength="542" lengthAdjust="spacing">
                     {aboutCircleText}
                   </textPath>
                 </text>
@@ -264,7 +264,7 @@ export default function About() {
                     <path id="founderMagicPath" d="M124,124 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0" />
                   </defs>
                   <text>
-                    <textPath href="#founderMagicPath" startOffset="50%" textAnchor="middle">
+                    <textPath href="#founderMagicPath" startOffset="50%" textAnchor="middle" textLength="542" lengthAdjust="spacing">
                       <tspan className="founder-magic-circle__black">{t.founderMagicBlack}</tspan>
                       <tspan className="founder-magic-circle__white">{t.founderMagicWhite}</tspan>
                     </textPath>
