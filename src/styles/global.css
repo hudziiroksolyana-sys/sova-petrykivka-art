@@ -293,6 +293,15 @@ body.language-switching footer {
   pointer-events: auto;
 }
 
+.header-lang--en .header-langbtn.is-inactive {
+  transform: translateX(8px);
+}
+
+.header-lang--en:hover .header-langbtn.is-inactive {
+  margin-left: 0;
+  margin-right: 8px;
+}
+
 .actions img {
   width: 16px;
   height: 16px;
@@ -3327,7 +3336,7 @@ body{
 .gallery-process-card--p2 { aspect-ratio: 4 / 3.25; }
 .gallery-process-card--p3 {
   aspect-ratio: auto;
-  height: clamp(158px, 14.4vw, 222px);
+  height: clamp(132px, 11.8vw, 188px);
   max-height: none;
 }
 .gallery-process-card--p4 {
@@ -3390,7 +3399,7 @@ body{
   transform-origin: center center;
   color: #fff;
   font-family: "Inter", system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 300;
   line-height: 1;
   white-space: pre;
@@ -3500,7 +3509,7 @@ body{
 
 .founder-magic-circle {
   position: absolute;
-  top: -68px;
+  top: 18px;
   right: 18px;
   width: 132px;
   height: 132px;
@@ -4702,7 +4711,7 @@ body{
     .about-circlebtn {
       width: 126px;
       height: 126px;
-      --ring-radius: 50px;
+      --ring-radius: 48px;
       left: -6px;
       top: calc(100% + 82px);
       bottom: auto;
@@ -4727,8 +4736,8 @@ body{
     }
 
     .about-circlebtn-char {
-      font-size: 12px;
-      letter-spacing: 0.01em;
+      font-size: 10px;
+      letter-spacing: 0;
     }
 
   }

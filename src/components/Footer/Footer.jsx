@@ -22,7 +22,6 @@ export default function Footer() {
 
   const handleLanguageChange = (nextLanguage) => {
     setLanguage(nextLanguage);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSubmit = async (event) => {

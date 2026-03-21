@@ -94,7 +94,7 @@ export default function Header({ menuOpen, onMenuToggle }) {
         </nav>
 
         <div className="actions">
-          <div className="header-lang" aria-label="Language switcher">
+          <div className={`header-lang header-lang--${language}`} aria-label="Language switcher">
             <button
               className={`header-langbtn${language === "uk" ? " is-active" : " is-inactive"}`}
               type="button"

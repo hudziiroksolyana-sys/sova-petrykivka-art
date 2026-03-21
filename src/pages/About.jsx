@@ -27,11 +27,11 @@ import { useLanguage } from "../context/LanguageContext";
 
 const aboutContent = {
   uk: {
-    circleText: "Побачити більше робіт майстрині ·",
+    circleText: "Більше робіт майстрині ·",
     title: "Наша історія",
     subtitle: ["Майстерня виникла з любові", "до українського народного мистецтва"],
     firstGalleryAlt: "Перші вироби майстерні",
-    circleAria: "Побачити більше робіт майстрині",
+    circleAria: "Більше робіт майстрині",
     galleryAlts: ["Інструменти та процес створення", "Петриківський розпис у роботі", "Авторська робота в майстерні"],
     description: [
       "У 2015 році Наталя створила перші вироби у техніці петриківського розпису",
@@ -79,11 +79,11 @@ const aboutContent = {
     ],
   },
   en: {
-    circleText: "See more of the artist's work ·",
+    circleText: "See more works ·",
     title: "Our story",
     subtitle: ["The studio grew from a love", "for Ukrainian folk art"],
     firstGalleryAlt: "First studio works",
-    circleAria: "See more of the artist's work",
+    circleAria: "See more works",
     galleryAlts: ["Tools and creative process", "Petrykivka painting in progress", "Original work in the studio"],
     description: [
       "In 2015, Nataliia created her first pieces in the Petrykivka painting tradition.",

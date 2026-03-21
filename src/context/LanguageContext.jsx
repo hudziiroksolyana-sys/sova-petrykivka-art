@@ -45,6 +45,7 @@ export function LanguageProvider({ children }) {
 
     const applyLanguage = () => {
       setLanguageState(nextLanguage);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     if (typeof document !== "undefined" && typeof document.startViewTransition === "function") {
