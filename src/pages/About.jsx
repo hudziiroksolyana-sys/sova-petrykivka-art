@@ -136,7 +136,7 @@ export default function About() {
   const { language } = useLanguage();
   const t = useMemo(() => aboutContent[language], [language]);
   const aboutCircleText = t.circleText;
-  const aboutCircleTextRing = `${t.circleText} `;
+  const aboutCircleTextRing = `${t.circleText} ${t.circleText} `;
   const aboutRef = useRef(null);
   const achievementsGridRef = useRef(null);
   const [achievementsAtStart, setAchievementsAtStart] = useState(true);
