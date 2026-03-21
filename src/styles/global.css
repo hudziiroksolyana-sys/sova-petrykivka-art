@@ -4697,49 +4697,46 @@ body{
   }
 }
 
-/* Real iPhone/mobile Safari tuning: keep circle text readable and move CTA to 2nd row (left card) */
-@supports (-webkit-touch-callout: none) {
-  @media (max-width: 600px) {
-    .about-gallery {
-      overflow: visible;
-    }
+/* Mobile circle CTA: use the denser fallback ring across browsers */
+@media (max-width: 600px) {
+  .about-gallery {
+    overflow: visible;
+  }
 
-    .about-card--first {
-      overflow: visible;
-    }
+  .about-card--first {
+    overflow: visible;
+  }
 
-    .about-circlebtn {
-      width: 126px;
-      height: 126px;
-      --ring-radius: 48px;
-      left: -6px;
-      top: calc(100% + 82px);
-      bottom: auto;
-      z-index: 5;
-    }
+  .about-circlebtn {
+    width: 126px;
+    height: 126px;
+    --ring-radius: 48px;
+    left: -6px;
+    top: calc(100% + 82px);
+    bottom: auto;
+    z-index: 5;
+  }
 
-    .about-circlebtn svg {
-      display: none;
-    }
+  .about-circlebtn svg {
+    display: none;
+  }
 
-    .about-circlebtn-ring {
-      display: block;
-      position: absolute;
-      inset: 0;
-    }
+  .about-circlebtn-ring {
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
 
-    .about-circlebtn text {
-      font-size: 12px;
-      font-weight: 300;
-      letter-spacing: 0;
-      text-rendering: geometricPrecision;
-    }
+  .about-circlebtn text {
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0;
+    text-rendering: geometricPrecision;
+  }
 
-    .about-circlebtn-char {
-      font-size: 9px;
-      letter-spacing: 0;
-    }
-
+  .about-circlebtn-char {
+    font-size: 9px;
+    letter-spacing: 0;
   }
 }
 
