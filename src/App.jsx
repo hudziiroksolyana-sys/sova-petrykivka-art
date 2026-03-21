@@ -11,6 +11,7 @@ import Gallery from "./pages/Gallery";
 import Contacts from "./pages/Contacts";
 import BlogPost from "./pages/BlogPost";
 import Classes from "./pages/Classes";
+import LegalPage from "./pages/LegalPage";
 
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="classes" element={<Classes />} />
         <Route path="gallery" element={<Gallery />} />
         <Route path="contacts" element={<Contacts />} />
+        <Route path="legal/:slug" element={<LegalPage />} />
       </Route>
     </Routes>
   );

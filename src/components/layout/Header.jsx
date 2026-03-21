@@ -96,14 +96,14 @@ export default function Header({ menuOpen, onMenuToggle }) {
         <div className="actions">
           <div className="header-lang" aria-label="Language switcher">
             <button
-              className={`header-langbtn${language === "uk" ? " is-active" : ""}`}
+              className={`header-langbtn${language === "uk" ? " is-active" : " is-inactive"}`}
               type="button"
               onClick={() => setLanguage("uk")}
             >
               UA
             </button>
             <button
-              className={`header-langbtn${language === "en" ? " is-active" : ""}`}
+              className={`header-langbtn${language === "en" ? " is-active" : " is-inactive"}`}
               type="button"
               onClick={() => setLanguage("en")}
             >

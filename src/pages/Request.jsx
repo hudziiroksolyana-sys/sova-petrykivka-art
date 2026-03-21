@@ -518,7 +518,13 @@ export default function Request() {
                       <span className="bloghome-moretext">{t.close}</span>
                       <span className="bloghome-morecircle" aria-hidden="true"><span className="bloghome-morearrow">↗</span></span>
                     </button>
-                    <button type="button" className="request-modal-secondary" onClick={resetBookingFlow}>{t.newRequest}</button>
+                    <button
+                      type="button"
+                      className="request-modal-secondary request-modal-secondary--accent"
+                      onClick={resetBookingFlow}
+                    >
+                      {t.newRequest}
+                    </button>
                   </div>
                 </div>
               )}

@@ -192,7 +192,12 @@ export default function Classes() {
       revealItems.forEach((item) => item.classList.add("is-visible"));
       return undefined;
     }
-    revealItems.forEach((item, index) => item.style.setProperty("--reveal-delay", `${Math.min(index * 50, 420)}ms`));
+
+    revealItems.forEach((item, index) => {
+      item.classList.remove("is-visible");
+      item.style.setProperty("--reveal-delay", `${Math.min(index * 50, 420)}ms`);
+    });
+
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -201,9 +206,27 @@ export default function Classes() {
         }
       });
     }, { threshold: 0.14, rootMargin: "0px 0px -8% 0px" });
-    revealItems.forEach((item) => revealObserver.observe(item));
-    return () => revealObserver.disconnect();
-  }, []);
+
+    const revealImmediatelyVisibleItems = () => {
+      revealItems.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
+
+        if (isInViewport) {
+          item.classList.add("is-visible");
+          return;
+        }
+
+        revealObserver.observe(item);
+      });
+    };
+
+    const rafId = window.requestAnimationFrame(revealImmediatelyVisibleItems);
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      revealObserver.disconnect();
+    };
+  }, [language, activeCalendarMonth]);
 
   const goPrev = () => setActiveIndex((prev) => (prev - 1 + t.workshops.length) % t.workshops.length);
   const goNext = () => setActiveIndex((prev) => (prev + 1) % t.workshops.length);
@@ -323,7 +346,7 @@ export default function Classes() {
 
           <div className="classes-calendar-grid">
             {selectedCalendar.events.map((event) => (
-              <article key={event.id} className="classes-calendar-card home-reveal classes-calendar-reveal" data-reveal="up">
+              <article key={event.id} className="classes-calendar-card home-reveal classes-reveal" data-reveal="up">
                 <div className="classes-calendar-desktop">
                   <div className="classes-calendar-content">
                     <div className="classes-calendar-datebox">

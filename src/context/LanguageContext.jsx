@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const STORAGE_KEY = "sova:lang";
 const DEFAULT_LANGUAGE = "uk";
@@ -21,12 +21,49 @@ const getInitialLanguage = () => {
 };
 
 export function LanguageProvider({ children }) {
-  const [language, setLanguage] = useState(getInitialLanguage);
+  const [language, setLanguageState] = useState(getInitialLanguage);
+  const animationTimeoutRef = useRef(null);
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, language);
     document.documentElement.lang = language;
   }, [language]);
+
+  useEffect(() => () => {
+    if (animationTimeoutRef.current) {
+      window.clearTimeout(animationTimeoutRef.current);
+    }
+    document.body.classList.remove("language-switching");
+  }, []);
+
+  const setLanguage = (nextLanguage) => {
+    if (!SUPPORTED_LANGUAGES.has(nextLanguage) || nextLanguage === language) return;
+
+    if (animationTimeoutRef.current) {
+      window.clearTimeout(animationTimeoutRef.current);
+    }
+
+    const applyLanguage = () => {
+      setLanguageState(nextLanguage);
+    };
+
+    if (typeof document !== "undefined" && typeof document.startViewTransition === "function") {
+      document.startViewTransition(() => {
+        applyLanguage();
+      });
+      return;
+    }
+
+    document.body.classList.remove("language-switching");
+    void document.body.offsetWidth;
+    document.body.classList.add("language-switching");
+    applyLanguage();
+
+    animationTimeoutRef.current = window.setTimeout(() => {
+      document.body.classList.remove("language-switching");
+      animationTimeoutRef.current = null;
+    }, 320);
+  };
 
   const value = {
     language,

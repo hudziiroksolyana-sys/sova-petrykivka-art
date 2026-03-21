@@ -29,6 +29,15 @@ export const translations = {
       submitting: "Надсилаємо...",
       followUs: "Слідкуйте за нами",
       quote: "\"Петриківка — мистецтво,\nщо живе в серці України\"",
+      legalTitle: "Інформація",
+      copyright: "© 2026 SOVA-Petrykivka Art. Усі права захищені.",
+      legalLinks: {
+        privacy: "Конфіденційність",
+        terms: "Умови користування",
+        paymentDelivery: "Оплата і доставка",
+        returns: "Повернення та обмін",
+        offer: "Публічна оферта",
+      },
     },
     layout: {
       scrollTop: "Повернутися нагору",
@@ -83,6 +92,15 @@ export const translations = {
       submitting: "Sending...",
       followUs: "Follow us",
       quote: "\"Petrykivka is an art\nthat lives in the heart of Ukraine\"",
+      legalTitle: "Information",
+      copyright: "© 2026 SOVA-Petrykivka Art. All rights reserved.",
+      legalLinks: {
+        privacy: "Privacy Policy",
+        terms: "Terms & Conditions",
+        paymentDelivery: "Payment & Delivery",
+        returns: "Returns & Refunds",
+        offer: "Public Offer",
+      },
     },
     layout: {
       scrollTop: "Back to top",

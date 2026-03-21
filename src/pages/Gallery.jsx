@@ -76,6 +76,7 @@ export default function Gallery() {
     if (!revealItems.length) return undefined;
 
     revealItems.forEach((item, index) => {
+      item.classList.remove("is-visible");
       item.style.setProperty("--reveal-delay", `${Math.min(index * 55, 420)}ms`);
     });
 
@@ -91,9 +92,26 @@ export default function Gallery() {
       { threshold: 0.14, rootMargin: "0px 0px -8% 0px" },
     );
 
-    revealItems.forEach((item) => revealObserver.observe(item));
-    return () => revealObserver.disconnect();
-  }, []);
+    const revealImmediatelyVisibleItems = () => {
+      revealItems.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
+
+        if (isInViewport) {
+          item.classList.add("is-visible");
+          return;
+        }
+
+        revealObserver.observe(item);
+      });
+    };
+
+    const rafId = window.requestAnimationFrame(revealImmediatelyVisibleItems);
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      revealObserver.disconnect();
+    };
+  }, [language]);
 
   return (
     <section className="about-page" ref={galleryRef}>

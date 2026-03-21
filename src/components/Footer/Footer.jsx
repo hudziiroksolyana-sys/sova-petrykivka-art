@@ -8,6 +8,7 @@ import emailIcon from "../../assets/icons/email.svg";
 import { sendLead } from "../../lib/leadApi";
 import { useLanguage } from "../../context/LanguageContext";
 import { translations } from "../../lib/translations";
+import { legalPageOrder } from "../../lib/legalPages";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -18,6 +19,11 @@ export default function Footer() {
   const footerText = translations[language].footer;
 
   const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+
+  const handleLanguageChange = (nextLanguage) => {
+    setLanguage(nextLanguage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -57,14 +63,14 @@ export default function Footer() {
             <button
               className={`footer-langbtn${language === "uk" ? " is-active" : ""}`}
               type="button"
-              onClick={() => setLanguage("uk")}
+              onClick={() => handleLanguageChange("uk")}
             >
               UA
             </button>
             <button
               className={`footer-langbtn${language === "en" ? " is-active" : ""}`}
               type="button"
-              onClick={() => setLanguage("en")}
+              onClick={() => handleLanguageChange("en")}
             >
               EN
             </button>
@@ -77,6 +83,7 @@ export default function Footer() {
             <Link className="footer-link" to="/contacts">{headerText.contacts}</Link>
             <Link className="footer-link" to="/classes">{headerText.classes}</Link>
           </nav>
+
         </div>
 
         {/* CENTER */}
@@ -188,6 +195,18 @@ export default function Footer() {
             </a>
           </div>
         </div>
+      </div>
+
+      <div className="footer-legalbar">
+        <p className="footer-legalbar-title">{footerText.legalTitle}</p>
+        <nav className="footer-legalbar-links" aria-label={footerText.legalTitle}>
+          {legalPageOrder.map((slug) => (
+            <Link key={slug} className="footer-legalbar-link" to={`/legal/${slug}`}>
+              {footerText.legalLinks[slug]}
+            </Link>
+          ))}
+        </nav>
+        <p className="footer-legalbar-copy">{footerText.copyright}</p>
       </div>
     </footer>
   );
