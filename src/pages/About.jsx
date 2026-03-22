@@ -136,7 +136,6 @@ export default function About() {
   const { language } = useLanguage();
   const t = useMemo(() => aboutContent[language], [language]);
   const aboutCircleText = t.circleText;
-  const aboutCircleTextRing = `${t.circleText} `;
   const founderMagicText = `${t.founderMagicBlack}${t.founderMagicWhite}`;
   const founderMagicTextRing = `${founderMagicText} `;
   const aboutRef = useRef(null);
@@ -215,17 +214,16 @@ export default function About() {
           <div className="about-card about-card--first home-reveal" data-reveal="scale">
             <img src={about1} alt={t.firstGalleryAlt} />
             <Link to="/gallery" className="about-circlebtn" aria-label={t.circleAria}>
-              <span className="about-circlebtn-ring" aria-hidden="true">
-                {[...aboutCircleTextRing].map((char, index) => (
-                  <span
-                    key={`${char}-${index}`}
-                    className={`about-circlebtn-char${char === "·" ? " about-circlebtn-char--dot" : ""}`}
-                    style={{ "--char-index": index, "--char-count": aboutCircleTextRing.length }}
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
+              <svg viewBox="0 0 248 248" aria-hidden="true">
+                <defs>
+                  <path id="aboutCirclePath" d="M124,124 m-100,0 a100,100 0 1,1 200,0 a100,100 0 1,1 -200,0" />
+                </defs>
+                <text>
+                  <textPath href="#aboutCirclePath" startOffset="50%" textAnchor="middle">
+                    {aboutCircleText}
+                  </textPath>
+                </text>
+              </svg>
               <span className="about-circlebtn-arrow">↗</span>
             </Link>
           </div>
