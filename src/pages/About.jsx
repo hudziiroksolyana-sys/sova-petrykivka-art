@@ -137,6 +137,8 @@ export default function About() {
   const t = useMemo(() => aboutContent[language], [language]);
   const aboutCircleText = t.circleText;
   const aboutCircleTextRing = `${t.circleText} `;
+  const founderMagicText = `${t.founderMagicBlack}${t.founderMagicWhite}`;
+  const founderMagicTextRing = `${founderMagicText} `;
   const aboutRef = useRef(null);
   const achievementsGridRef = useRef(null);
   const [achievementsAtStart, setAchievementsAtStart] = useState(true);
@@ -213,16 +215,6 @@ export default function About() {
           <div className="about-card about-card--first home-reveal" data-reveal="scale">
             <img src={about1} alt={t.firstGalleryAlt} />
             <Link to="/gallery" className="about-circlebtn" aria-label={t.circleAria}>
-              <svg viewBox="0 0 248 248" aria-hidden="true">
-                <defs>
-                  <path id="aboutCirclePath" d="M124,124 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0" />
-                </defs>
-                <text>
-                  <textPath href="#aboutCirclePath" startOffset="50%" textAnchor="middle" textLength="542" lengthAdjust="spacing">
-                    {aboutCircleText}
-                  </textPath>
-                </text>
-              </svg>
               <span className="about-circlebtn-ring" aria-hidden="true">
                 {[...aboutCircleTextRing].map((char, index) => (
                   <span
@@ -259,17 +251,17 @@ export default function About() {
             <img className="founder-photo founder-photo--main" src={founder1} alt={t.founderMainAlt} />
             <div className="founder-right">
               <div className="founder-magic-circle" aria-hidden="true">
-                <svg viewBox="0 0 248 248">
-                  <defs>
-                    <path id="founderMagicPath" d="M124,124 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0" />
-                  </defs>
-                  <text>
-                    <textPath href="#founderMagicPath" startOffset="50%" textAnchor="middle" textLength="542" lengthAdjust="spacing">
-                      <tspan className="founder-magic-circle__black">{t.founderMagicBlack}</tspan>
-                      <tspan className="founder-magic-circle__white">{t.founderMagicWhite}</tspan>
-                    </textPath>
-                  </text>
-                </svg>
+                <span className="founder-magic-ring">
+                  {[...founderMagicTextRing].map((char, index) => (
+                    <span
+                      key={`${char}-${index}`}
+                      className={`founder-magic-char${index < t.founderMagicBlack.length ? " founder-magic-char--black" : " founder-magic-char--white"}${char === "·" ? " founder-magic-char--dot" : ""}`}
+                      style={{ "--char-index": index, "--char-count": founderMagicTextRing.length }}
+                    >
+                      {char}
+                    </span>
+                  ))}
+                </span>
               </div>
               <img className="founder-photo founder-photo--secondary" src={founder2} alt={t.founderSecondAlt} />
               <p className="founder-text">{t.founderText}</p>
@@ -296,7 +288,7 @@ export default function About() {
             <h2 className="symbols-section__title">{t.symbolsTitle}</h2>
             <div className="symbols-grid">
               {t.symbols.map((symbol, index) => (
-                <article key={symbol.title} className={`symbols-card${index === 3 ? " symbols-card--zoom" : ""} home-reveal`} data-reveal="scale">
+                <article key={symbol.title} className={`symbols-card${index === 3 ? " symbols-card--zoom" : ""}`}>
                   <div className={`symbols-card__media${index === 3 ? " symbols-card__media--tight" : ""}`}>
                     <img src={symbol.image} alt={symbol.alt} />
                   </div>
