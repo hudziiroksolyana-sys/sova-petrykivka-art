@@ -3062,7 +3062,11 @@ body{
 }
 
 .gallery-page {
-  background: #fff;
+  background: #fff !important;
+}
+
+.gallery-page .about-container {
+  background: #fff !important;
 }
 
 .about-container {
