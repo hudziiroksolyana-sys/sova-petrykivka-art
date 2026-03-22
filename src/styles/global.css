@@ -3316,6 +3316,11 @@ body{
   display: flex;
   flex-direction: column;
   gap: 24px;
+  height: 100%;
+}
+
+.gallery-process-col .gallery-process-card:last-child {
+  margin-top: auto;
 }
 
 .gallery-process-card {
