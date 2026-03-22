@@ -3517,7 +3517,7 @@ body{
   display: block;
   position: absolute;
   inset: 0;
-  transform: rotate(-96deg);
+  transform: rotate(-84deg);
   transform-origin: center;
 }
 
