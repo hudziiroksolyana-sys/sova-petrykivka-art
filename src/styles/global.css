@@ -3061,6 +3061,10 @@ body{
   padding-bottom: 60px;
 }
 
+.gallery-page {
+  background: #fff;
+}
+
 .about-container {
   width: 100%;
   max-width: none;

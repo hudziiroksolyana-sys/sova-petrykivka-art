@@ -114,7 +114,7 @@ export default function Gallery() {
   }, [language]);
 
   return (
-    <section className="about-page" ref={galleryRef}>
+    <section className="about-page gallery-page" ref={galleryRef}>
       <div className="about-container">
         <div className="about-header home-reveal gallery-reveal" data-reveal="up">
           <h1 className="about-title">{t.title}</h1>
