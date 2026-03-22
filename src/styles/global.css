@@ -3387,6 +3387,18 @@ body{
   text-shadow: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricPrecision;
+  stroke: none;
+  stroke-width: 0;
+  paint-order: fill;
+  filter: none;
+}
+
+.about-circlebtn textPath {
+  fill: #fff;
+  stroke: none;
+  stroke-width: 0;
+  paint-order: fill;
+  filter: none;
 }
 
 
