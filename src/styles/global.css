@@ -3506,7 +3506,7 @@ body{
 
 .founder-magic-circle {
   position: absolute;
-  top: -72px;
+  top: -68px;
   right: 18px;
   width: 132px;
   height: 132px;
@@ -3517,7 +3517,7 @@ body{
   display: block;
   position: absolute;
   inset: 0;
-  transform: rotate(-84deg);
+  transform: rotate(-76deg);
   transform-origin: center;
 }
 
