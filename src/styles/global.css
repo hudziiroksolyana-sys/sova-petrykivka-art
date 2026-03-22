@@ -2002,6 +2002,27 @@ body{
     -webkit-backdrop-filter: none;
     border-bottom: none;
     box-shadow: none;
+    isolation: isolate;
+  }
+
+  body.page-gallery .header::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: #fff;
+    pointer-events: none;
+  }
+
+  body.page-gallery,
+  body.page-gallery #root,
+  body.page-gallery main,
+  body.page-gallery .about-page,
+  body.page-gallery .gallery-page,
+  body.page-gallery .gallery-page .about-container{
+    background: #fff !important;
   }
 }
 
