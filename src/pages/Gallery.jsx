@@ -70,6 +70,13 @@ export default function Gallery() {
   const galleryRef = useRef(null);
 
   useEffect(() => {
+    document.body.classList.add("page-gallery");
+    return () => {
+      document.body.classList.remove("page-gallery");
+    };
+  }, []);
+
+  useEffect(() => {
     const root = galleryRef.current;
     if (!root) return undefined;
     const revealItems = Array.from(root.querySelectorAll(".gallery-reveal"));

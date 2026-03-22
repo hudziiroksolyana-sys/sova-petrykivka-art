@@ -1995,6 +1995,13 @@ body{
   .header + .mobilemenu + main{
     padding-top: 84px;
   }
+
+  body.page-gallery .header{
+    background: #fff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 1px solid #f0f0f0;
+  }
 }
 
 @media (max-width: 900px){
