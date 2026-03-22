@@ -10888,6 +10888,17 @@ body{
     padding-top: 0 !important;
   }
 
+  .mobilemenu-links{
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .header,
+  .header-container{
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
   .mobilemenu a,
   .mobilemenu button,
   .header-burger,
