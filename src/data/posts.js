@@ -107,6 +107,40 @@ const POST_ITEMS = [
     },
   },
   {
+    slug: "what-is-petrykivka-painting",
+    title: {
+      uk: "Петриківський розпис: що це, символи та з чого почати",
+      en: "Petrykivka painting: what it is, symbols, and how to start",
+    },
+    cover: cover2,
+    introTitle: {
+      uk: "Короткий гід для тих, хто шукає «петриківський розпис» у Google",
+      en: "A practical guide for people searching for Petrykivka painting",
+    },
+    introText: {
+      uk:
+        "Петриківський розпис - це традиційний український декоративний живопис, внесений до списку нематеріальної культурної спадщини ЮНЕСКО. Його легко впізнати за квітковими мотивами, ягідками, листям і ритмічними мазками. Сьогодні петриківка поєднує автентичну техніку та сучасний дизайн: від картин і декору до майстер-класів для дітей і дорослих.",
+      en:
+        "Petrykivka painting is a traditional Ukrainian decorative art form recognized by UNESCO as intangible cultural heritage. It is known for floral ornaments, berries, leaves, and rhythmic brushstrokes. Today, Petrykivka combines authentic technique with modern design in artworks, decor, and workshops.",
+    },
+    details: {
+      uk: [
+        "Якщо ви тільки починаєте, достатньо базового набору: папір, кілька пензлів і акрилові або гуашеві фарби. Варто почати з простих елементів - зернятка, гребінця, листочка - і лише потім переходити до складних композицій.",
+        "Символіка у петриківському розписі також важлива: калина асоціюється з пам'яттю та українською ідентичністю, барвінок - з вічністю та життям, птахи - з оновленням і добрими новинами.",
+        "Щоб швидше прогресувати, корисно поєднувати самостійну практику та майстер-класи. Живий зворотний зв'язок від майстра допомагає швидше поставити руку та відчути ритм орнаменту.",
+      ],
+      en: [
+        "If you are just starting, a basic kit is enough: paper, a few brushes, and acrylic or gouache paints. Begin with core strokes first, then move to complex compositions.",
+        "Symbolism is essential in Petrykivka: viburnum represents memory and Ukrainian identity, periwinkle relates to continuity and life, and birds symbolize renewal.",
+        "To improve faster, combine personal practice with workshops. Direct feedback helps you build confident brush control and composition rhythm.",
+      ],
+    },
+    facts: {
+      uk: ["Запит: петриківський розпис", "Підходить для початківців", "Є живі та онлайн майстер-класи"],
+      en: ["Keyword: petrykivka painting", "Beginner-friendly", "Live and online workshops available"],
+    },
+  },
+  {
     slug: "petrykivka-for-beginners",
     title: {
       uk: "Петриківський розпис: що треба знати початківцю",
