@@ -3327,10 +3327,6 @@ body{
   height: 100%;
 }
 
-.gallery-process-col .gallery-process-card:last-child {
-  margin-top: auto;
-}
-
 .gallery-process-card {
   margin: 0;
   position: relative;
