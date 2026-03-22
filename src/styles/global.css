@@ -3356,6 +3356,7 @@ body{
 }
 
 .about-circlebtn {
+  --ring-radius: 54px;
   position: absolute;
   left: 36px;
   bottom: -74px;
@@ -3371,34 +3372,38 @@ body{
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
-.about-circlebtn svg {
+.about-circlebtn-ring {
+  display: block;
   position: absolute;
   inset: 0;
-  overflow: visible;
 }
 
-.about-circlebtn text {
-  fill: #fff;
+.about-circlebtn-char {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%)
+    rotate(calc((360deg / var(--char-count)) * var(--char-index)))
+    translateY(calc(var(--ring-radius) * -1));
+  transform-origin: center center;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
   font-family: "Inter", system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 400;
   line-height: 1;
-  letter-spacing: 1.4px;
+  letter-spacing: 0;
+  white-space: pre;
   text-shadow: none;
   -webkit-font-smoothing: antialiased;
-  text-rendering: geometricPrecision;
-  stroke: #fff;
-  stroke-width: 0.35px;
-  paint-order: stroke fill;
+  text-rendering: optimizeLegibility;
+  backface-visibility: hidden;
   filter: none;
+  mix-blend-mode: normal;
 }
 
-.about-circlebtn textPath {
-  fill: #fff;
-  stroke: #fff;
-  stroke-width: 0.35px;
-  paint-order: stroke fill;
-  filter: none;
+.about-circlebtn-char--dot {
+  color: #fff;
 }
 
 
@@ -4709,6 +4714,7 @@ body{
   .about-circlebtn {
     width: 126px;
     height: 126px;
+    --ring-radius: 52px;
     left: -6px;
     top: calc(100% + 82px);
     bottom: auto;
@@ -4716,14 +4722,25 @@ body{
   }
 
   .about-circlebtn svg {
+    display: none;
+  }
+
+  .about-circlebtn-ring {
     display: block;
+    position: absolute;
+    inset: 0;
   }
 
   .about-circlebtn text {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 300;
     letter-spacing: 0;
     text-rendering: geometricPrecision;
+  }
+
+  .about-circlebtn-char {
+    font-size: 9px;
+    letter-spacing: 0;
   }
 }
 
