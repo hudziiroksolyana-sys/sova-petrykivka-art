@@ -3392,10 +3392,12 @@ body{
   font-weight: 300;
   line-height: 1;
   white-space: pre;
+  opacity: 1;
   text-shadow: none;
   filter: none;
-  -webkit-text-stroke: 0.55px #75162E;
+  -webkit-text-stroke: 0;
   -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
   backface-visibility: hidden;
 }
 
