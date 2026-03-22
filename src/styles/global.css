@@ -3345,7 +3345,7 @@ body{
 .gallery-process-card--p2 { aspect-ratio: 4 / 3.25; }
 .gallery-process-card--p3 {
   aspect-ratio: auto;
-  height: clamp(132px, 11.8vw, 188px);
+  height: clamp(230px, 18vw, 300px);
   max-height: none;
 }
 .gallery-process-card--p4 {
