@@ -216,14 +216,14 @@ export default function About() {
             <Link to="/gallery" className="about-circlebtn" aria-label={t.circleAria}>
               <svg viewBox="0 0 248 248" aria-hidden="true">
                 <defs>
-                  <path id="aboutCirclePath" d="M124,124 m-100,0 a100,100 0 1,1 200,0 a100,100 0 1,1 -200,0" />
+                  <path id="aboutCirclePath" d="M124,124 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0" />
                 </defs>
                 <text>
                   <textPath
                     href="#aboutCirclePath"
                     startOffset="50%"
                     textAnchor="middle"
-                    textLength="560"
+                    textLength="542"
                     lengthAdjust="spacing"
                   >
                     {aboutCircleText}
