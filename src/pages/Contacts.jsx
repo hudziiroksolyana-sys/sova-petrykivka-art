@@ -186,6 +186,24 @@ export default function Contacts() {
 
   const quoteLines = t.quote.split("\n");
   const quoteChars = quoteLines.map((line) => [...line]);
+  const quoteParticleDots = useMemo(() => {
+    const count = 220;
+    const seed = [...t.quote].reduce((acc, ch, index) => acc + ch.charCodeAt(0) * (index + 1), 0);
+    const random = (n) => {
+      const x = Math.sin((n + 1) * 12.9898 + seed * 0.001) * 43758.5453123;
+      return x - Math.floor(x);
+    };
+
+    return Array.from({ length: count }, (_, index) => {
+      const x = 6 + random(index * 3 + 1) * 88;
+      const y = 8 + random(index * 3 + 2) * 84;
+      const dx = (random(index * 3 + 3) - 0.5) * 32;
+      const dy = (random(index * 3 + 4) - 0.5) * 26;
+      const size = 1.4 + random(index * 3 + 5) * 2.2;
+      const delay = 70 + random(index * 3 + 6) * 780;
+      return { x, y, dx, dy, size, delay };
+    });
+  }, [t.quote]);
   let charCounter = -1;
 
   return (
@@ -319,6 +337,22 @@ export default function Contacts() {
         <div className="contacts-signoff-container home-reveal contacts-reveal" data-reveal="up">
           <p className="contacts-signoff-mark" aria-hidden="true">“</p>
           <h2 className="contacts-signoff-quote">
+            <span className="contacts-quote-particles" aria-hidden="true">
+              {quoteParticleDots.map((dot, index) => (
+                <span
+                  key={`dot-${index}`}
+                  className="contacts-quote-particle"
+                  style={{
+                    "--p-x": `${dot.x}%`,
+                    "--p-y": `${dot.y}%`,
+                    "--p-dx": `${dot.dx}px`,
+                    "--p-dy": `${dot.dy}px`,
+                    "--p-size": `${dot.size}px`,
+                    "--p-delay": `${dot.delay}ms`,
+                  }}
+                />
+              ))}
+            </span>
             {quoteChars.map((lineChars, lineIndex) => (
               <span key={`line-${lineIndex}`} className="contacts-signoff-line">
                 {lineChars.map((char, charIndex) => {

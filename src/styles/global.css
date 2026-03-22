@@ -6582,6 +6582,7 @@ body{
 .contacts-signoff-quote{
   margin: 12px auto 0;
   max-width: 840px;
+  position: relative;
   font-family: "Playfair Display", serif;
   font-size: 24px;
   line-height: 1.35;
@@ -6593,6 +6594,26 @@ body{
 
 .contacts-signoff-line{
   display: block;
+}
+
+.contacts-quote-particles{
+  position: absolute;
+  inset: -18px -22px;
+  pointer-events: none;
+}
+
+.contacts-quote-particle{
+  position: absolute;
+  left: var(--p-x, 50%);
+  top: var(--p-y, 50%);
+  width: var(--p-size, 2px);
+  height: var(--p-size, 2px);
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0;
+  transform: translate(calc(-50% + var(--p-dx, 0px)), calc(-50% + var(--p-dy, 0px))) scale(0.2);
+  filter: blur(1.2px);
+  will-change: transform, opacity, filter;
 }
 
 .contacts-quote-char{
@@ -6607,6 +6628,12 @@ body{
 .contacts-signoff-container.is-visible .contacts-quote-char{
   animation: contacts-particle-in 720ms cubic-bezier(0.2, 0.95, 0.24, 1) forwards;
   animation-delay: var(--char-delay, 0ms);
+}
+
+.contacts-signoff.is-visible .contacts-quote-particle,
+.contacts-signoff-container.is-visible .contacts-quote-particle{
+  animation: contacts-particle-dot 1100ms cubic-bezier(0.2, 0.95, 0.24, 1) forwards;
+  animation-delay: var(--p-delay, 0ms);
 }
 
 @keyframes contacts-particle-in{
@@ -6624,6 +6651,24 @@ body{
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
     filter: blur(0);
+  }
+}
+
+@keyframes contacts-particle-dot{
+  0%{
+    opacity: 0;
+    transform: translate(calc(-50% + (var(--p-dx, 0px) * 2.1)), calc(-50% + (var(--p-dy, 0px) * 2.1))) scale(0.2);
+    filter: blur(2px);
+  }
+  28%{
+    opacity: 0.95;
+    transform: translate(calc(-50% + (var(--p-dx, 0px) * 0.65)), calc(-50% + (var(--p-dy, 0px) * 0.65))) scale(1);
+    filter: blur(0.35px);
+  }
+  100%{
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.16);
+    filter: blur(0.8px);
   }
 }
 
@@ -7110,6 +7155,10 @@ body{
 }
 
 @media (max-width: 900px){
+  .contacts-quote-particles{
+    display: none;
+  }
+
   .contacts-quote-char{
     opacity: 1;
     transform: none;
@@ -7119,6 +7168,10 @@ body{
 }
 
 @media (prefers-reduced-motion: reduce){
+  .contacts-quote-particles{
+    display: none;
+  }
+
   .contacts-quote-char{
     opacity: 1;
     transform: none;
