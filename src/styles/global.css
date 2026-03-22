@@ -3356,7 +3356,7 @@ body{
 }
 
 .about-circlebtn {
-  --ring-radius: 47px;
+  --ring-radius: 54px;
   position: absolute;
   left: 36px;
   bottom: -74px;
@@ -3372,21 +3372,10 @@ body{
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
-.about-circlebtn svg {
-  width: 100%;
-  height: 100%;
-}
-
-.about-circlebtn text {
-  fill: #fff;
-  font-family: "Inter", system-ui, sans-serif;
-  font-weight: 300;
-  font-size: 22px;
-  letter-spacing: 0.02em;
-}
-
 .about-circlebtn-ring {
-  display: none;
+  display: block;
+  position: absolute;
+  inset: 0;
 }
 
 .about-circlebtn-char {
@@ -3516,26 +3505,33 @@ body{
   pointer-events: none;
 }
 
-.founder-magic-circle svg {
-  width: 100%;
-  height: 100%;
+.founder-magic-ring {
   display: block;
+  position: absolute;
+  inset: 0;
 }
 
-.founder-magic-circle text {
-  fill: #fff;
+.founder-magic-char {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%)
+    rotate(calc((360deg / var(--char-count)) * var(--char-index)))
+    translateY(-47px);
+  transform-origin: center center;
   font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
   font-weight: 400;
-  font-size: 22px;
-  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: pre;
 }
 
-.founder-magic-circle__black {
-  fill: #111;
+.founder-magic-char--black {
+  color: #111;
 }
 
-.founder-magic-circle__white {
-  fill: #fff;
+.founder-magic-char--white {
+  color: #fff;
 }
 
 .founder-text {
@@ -4710,7 +4706,7 @@ body{
   .about-circlebtn {
     width: 126px;
     height: 126px;
-    --ring-radius: 48px;
+    --ring-radius: 52px;
     left: -6px;
     top: calc(100% + 82px);
     bottom: auto;
