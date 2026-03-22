@@ -3392,6 +3392,11 @@ body{
   font-weight: 300;
   line-height: 1;
   white-space: pre;
+  text-shadow: none;
+  filter: none;
+  -webkit-text-stroke: 0 transparent;
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
 }
 
 .about-circlebtn-char--dot {
