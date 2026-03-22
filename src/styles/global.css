@@ -6612,16 +6612,14 @@ body{
   background: currentColor;
   opacity: 0;
   transform: translate(calc(-50% + var(--p-dx, 0px)), calc(-50% + var(--p-dy, 0px))) scale(0.2);
-  filter: blur(1.2px);
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 
 .contacts-quote-char{
   display: inline-block;
   opacity: 0;
   transform: translate3d(var(--char-drift-x, 0), calc(18px + var(--char-drift-y, 0)), 0) scale(0.24);
-  filter: blur(6px);
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 
 .contacts-signoff.is-visible .contacts-quote-char,
@@ -6640,17 +6638,14 @@ body{
   0%{
     opacity: 0;
     transform: translate3d(var(--char-drift-x, 0), calc(18px + var(--char-drift-y, 0)), 0) scale(0.24);
-    filter: blur(6px);
   }
   62%{
     opacity: 0.8;
     transform: translate3d(calc(var(--char-drift-x, 0) * 0.24), calc(var(--char-drift-y, 0) * 0.24), 0) scale(1.04);
-    filter: blur(1px);
   }
   100%{
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
-    filter: blur(0);
   }
 }
 
@@ -6658,17 +6653,14 @@ body{
   0%{
     opacity: 0;
     transform: translate(calc(-50% + (var(--p-dx, 0px) * 2.1)), calc(-50% + (var(--p-dy, 0px) * 2.1))) scale(0.2);
-    filter: blur(2px);
   }
   28%{
     opacity: 0.95;
     transform: translate(calc(-50% + (var(--p-dx, 0px) * 0.65)), calc(-50% + (var(--p-dy, 0px) * 0.65))) scale(1);
-    filter: blur(0.35px);
   }
   100%{
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.16);
-    filter: blur(0.8px);
   }
 }
 
@@ -7162,7 +7154,6 @@ body{
   .contacts-quote-char{
     opacity: 1;
     transform: none;
-    filter: none;
     animation: none !important;
   }
 }
@@ -7175,7 +7166,6 @@ body{
   .contacts-quote-char{
     opacity: 1;
     transform: none;
-    filter: none;
     animation: none !important;
   }
 }

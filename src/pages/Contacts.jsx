@@ -187,7 +187,7 @@ export default function Contacts() {
   const quoteLines = t.quote.split("\n");
   const quoteChars = quoteLines.map((line) => [...line]);
   const quoteParticleDots = useMemo(() => {
-    const count = 220;
+    const count = 120;
     const seed = [...t.quote].reduce((acc, ch, index) => acc + ch.charCodeAt(0) * (index + 1), 0);
     const random = (n) => {
       const x = Math.sin((n + 1) * 12.9898 + seed * 0.001) * 43758.5453123;
