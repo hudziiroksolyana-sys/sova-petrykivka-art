@@ -219,7 +219,13 @@ export default function About() {
                   <path id="aboutCirclePath" d="M124,124 m-100,0 a100,100 0 1,1 200,0 a100,100 0 1,1 -200,0" />
                 </defs>
                 <text>
-                  <textPath href="#aboutCirclePath" startOffset="50%" textAnchor="middle">
+                  <textPath
+                    href="#aboutCirclePath"
+                    startOffset="50%"
+                    textAnchor="middle"
+                    textLength="560"
+                    lengthAdjust="spacing"
+                  >
                     {aboutCircleText}
                   </textPath>
                 </text>
