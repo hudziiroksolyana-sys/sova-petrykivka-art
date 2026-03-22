@@ -136,7 +136,6 @@ export default function About() {
   const { language } = useLanguage();
   const t = useMemo(() => aboutContent[language], [language]);
   const aboutCircleText = t.circleText;
-  const aboutCircleTextRing = `${t.circleText} ${t.circleText}`;
   const founderMagicText = `${t.founderMagicBlack}${t.founderMagicWhite}`;
   const founderMagicTextRing = `${founderMagicText} `;
   const aboutRef = useRef(null);
@@ -221,8 +220,14 @@ export default function About() {
                   <path id={aboutCirclePathId.current} d="M124,124 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0" />
                 </defs>
                 <text>
-                  <textPath href={`#${aboutCirclePathId.current}`} startOffset="50%" textAnchor="middle">
-                    {aboutCircleTextRing}
+                  <textPath
+                    href={`#${aboutCirclePathId.current}`}
+                    startOffset="50%"
+                    textAnchor="middle"
+                    textLength="542"
+                    lengthAdjust="spacing"
+                  >
+                    {aboutCircleText}
                   </textPath>
                 </text>
               </svg>
