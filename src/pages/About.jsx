@@ -136,9 +136,11 @@ export default function About() {
   const { language } = useLanguage();
   const t = useMemo(() => aboutContent[language], [language]);
   const aboutCircleText = t.circleText;
+  const aboutCircleTextRing = `${t.circleText} ${t.circleText}`;
   const founderMagicText = `${t.founderMagicBlack}${t.founderMagicWhite}`;
   const founderMagicTextRing = `${founderMagicText} `;
   const aboutRef = useRef(null);
+  const aboutCirclePathId = useRef(`aboutCirclePath-${Math.random().toString(36).slice(2, 9)}`);
   const achievementsGridRef = useRef(null);
   const [achievementsAtStart, setAchievementsAtStart] = useState(true);
   const [achievementsAtEnd, setAchievementsAtEnd] = useState(false);
@@ -216,17 +218,11 @@ export default function About() {
             <Link to="/gallery" className="about-circlebtn" aria-label={t.circleAria}>
               <svg viewBox="0 0 248 248" aria-hidden="true">
                 <defs>
-                  <path id="aboutCirclePath" d="M124,124 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0" />
+                  <path id={aboutCirclePathId.current} d="M124,124 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0" />
                 </defs>
                 <text>
-                  <textPath
-                    href="#aboutCirclePath"
-                    startOffset="50%"
-                    textAnchor="middle"
-                    textLength="542"
-                    lengthAdjust="spacing"
-                  >
-                    {aboutCircleText}
+                  <textPath href={`#${aboutCirclePathId.current}`} startOffset="50%" textAnchor="middle">
+                    {aboutCircleTextRing}
                   </textPath>
                 </text>
               </svg>
