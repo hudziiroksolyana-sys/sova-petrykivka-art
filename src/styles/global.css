@@ -3348,8 +3348,11 @@ body{
   display: block;
 }
 
-.gallery-process-card--p1 { aspect-ratio: 4 / 3.05; }
-.gallery-process-card--p2 { aspect-ratio: 4 / 3.25; }
+.gallery-process-card--p1,
+.gallery-process-card--p2 {
+  aspect-ratio: auto;
+  height: clamp(300px, 24vw, 420px);
+}
 .gallery-process-card--p3 {
   aspect-ratio: auto;
   height: clamp(230px, 18vw, 300px);
