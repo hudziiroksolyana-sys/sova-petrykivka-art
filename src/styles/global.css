@@ -6591,6 +6591,42 @@ body{
   text-transform: uppercase;
 }
 
+.contacts-signoff-line{
+  display: block;
+}
+
+.contacts-quote-char{
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(var(--char-drift-x, 0), calc(18px + var(--char-drift-y, 0)), 0) scale(0.24);
+  filter: blur(6px);
+  will-change: transform, opacity, filter;
+}
+
+.contacts-signoff.is-visible .contacts-quote-char,
+.contacts-signoff-container.is-visible .contacts-quote-char{
+  animation: contacts-particle-in 720ms cubic-bezier(0.2, 0.95, 0.24, 1) forwards;
+  animation-delay: var(--char-delay, 0ms);
+}
+
+@keyframes contacts-particle-in{
+  0%{
+    opacity: 0;
+    transform: translate3d(var(--char-drift-x, 0), calc(18px + var(--char-drift-y, 0)), 0) scale(0.24);
+    filter: blur(6px);
+  }
+  62%{
+    opacity: 0.8;
+    transform: translate3d(calc(var(--char-drift-x, 0) * 0.24), calc(var(--char-drift-y, 0) * 0.24), 0) scale(1.04);
+    filter: blur(1px);
+  }
+  100%{
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
 .contacts-signoff-byline{
   margin: 24px 0 0;
   font-family: "Playfair Display", serif;
@@ -7070,6 +7106,24 @@ body{
 
   .contacts-signoff-ring text{
     font-size: 15px;
+  }
+}
+
+@media (max-width: 900px){
+  .contacts-quote-char{
+    opacity: 1;
+    transform: none;
+    filter: none;
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .contacts-quote-char{
+    opacity: 1;
+    transform: none;
+    filter: none;
+    animation: none !important;
   }
 }
 

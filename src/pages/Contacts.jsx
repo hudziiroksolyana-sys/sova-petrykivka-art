@@ -185,6 +185,8 @@ export default function Contacts() {
   };
 
   const quoteLines = t.quote.split("\n");
+  const quoteChars = quoteLines.map((line) => [...line]);
+  let charCounter = -1;
 
   return (
     <div className="contacts-page" ref={contactsRef}>
@@ -317,10 +319,26 @@ export default function Contacts() {
         <div className="contacts-signoff-container home-reveal contacts-reveal" data-reveal="up">
           <p className="contacts-signoff-mark" aria-hidden="true">“</p>
           <h2 className="contacts-signoff-quote">
-            {quoteLines.map((line, index) => (
-              <span key={`${line}-${index}`}>
-                {line}
-                {index < quoteLines.length - 1 ? <br /> : null}
+            {quoteChars.map((lineChars, lineIndex) => (
+              <span key={`line-${lineIndex}`} className="contacts-signoff-line">
+                {lineChars.map((char, charIndex) => {
+                  charCounter += 1;
+                  const driftX = ((charCounter * 7) % 9) - 4;
+                  const driftY = ((charCounter * 5) % 11) - 5;
+                  return (
+                    <span
+                      key={`char-${lineIndex}-${charIndex}-${charCounter}`}
+                      className="contacts-quote-char"
+                      style={{
+                        "--char-delay": `${charCounter * 18}ms`,
+                        "--char-drift-x": `${driftX}px`,
+                        "--char-drift-y": `${driftY}px`,
+                      }}
+                    >
+                      {char === " " ? "\u00A0" : char}
+                    </span>
+                  );
+                })}
               </span>
             ))}
           </h2>
