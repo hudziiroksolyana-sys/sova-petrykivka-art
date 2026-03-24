@@ -1,24 +1,19 @@
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import heroLeft from "../assets/image/home/hero-left.jpg";
 import heroRight from "../assets/image/home/hero-right.jpg";
-
 import sova1 from "../assets/image/home/sova-1.jpg";
 import sova2 from "../assets/image/home/sova-2.jpg";
 import sova3 from "../assets/image/home/sova-3.jpg";
 import sova4 from "../assets/image/home/sova-4.jpg";
-
 import can1 from "../assets/image/home/can-1.jpg";
 import can2 from "../assets/image/home/can-2.jpg";
 import can3 from "../assets/image/home/can-3.jpg";
-
-
-
-import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-
-import BlogHome from "../components/home/BlogHome";
+import SmartImage from "../components/common/SmartImage";
 import { useLanguage } from "../context/LanguageContext";
 import { translations } from "../lib/translations";
 
+const BlogHome = lazy(() => import("../components/home/BlogHome"));
 
 export default function Home() {
   const canGridRef = useRef(null);
@@ -110,12 +105,23 @@ export default function Home() {
 
           <div className="hero-images home-reveal" data-reveal="scale">
             <div className="hero-card">
-              <img src={heroLeft} alt={t.heroLeftAlt} />
+              <SmartImage
+                src={heroLeft}
+                alt={t.heroLeftAlt}
+                loading="eager"
+                fetchPriority="high"
+                sizes="(max-width: 600px) 50vw, (max-width: 900px) 100vw, 50vw"
+              />
               <Link to="/shop" className="hero-chip hero-chip--glass">{t.heroShop}</Link>
             </div>
 
             <div className="hero-card">
-              <img src={heroRight} alt={t.heroRightAlt} />
+              <SmartImage
+                src={heroRight}
+                alt={t.heroRightAlt}
+                loading="eager"
+                sizes="(max-width: 600px) 50vw, (max-width: 900px) 100vw, 50vw"
+              />
               <Link to="/classes" className="hero-chip hero-chip--glass hero-chip--long">
                 {t.heroClasses}
               </Link>
@@ -132,10 +138,10 @@ export default function Home() {
         </div>
 
         <div className="sova-gallery home-reveal" data-reveal="up">
-          <img src={sova1} alt="process 1" />
-          <img src={sova2} alt="process 2" />
-          <img src={sova3} alt="process 3" />
-          <img src={sova4} alt="process 4" />
+          <SmartImage src={sova1} alt="process 1" sizes="(max-width: 600px) 46vw, (max-width: 1024px) 48vw, 24vw" />
+          <SmartImage src={sova2} alt="process 2" sizes="(max-width: 600px) 46vw, (max-width: 1024px) 48vw, 24vw" />
+          <SmartImage src={sova3} alt="process 3" sizes="(max-width: 600px) 46vw, (max-width: 1024px) 48vw, 24vw" />
+          <SmartImage src={sova4} alt="process 4" sizes="(max-width: 600px) 46vw, (max-width: 1024px) 48vw, 24vw" />
         </div>
 
         <p className="sova-description home-reveal" data-reveal="up">
@@ -150,7 +156,7 @@ export default function Home() {
 
     <div className="can-grid home-reveal" data-reveal="up" ref={canGridRef}>
       <div className="can-card can-card--overlay home-reveal" data-reveal="scale">
-        <img src={can1} alt={t.canCards[0]} />
+        <SmartImage src={can1} alt={t.canCards[0]} sizes="(max-width: 600px) 50vw, 33vw" />
         <div className="can-overlay">
           <p className="can-overlay-text">
             {t.canCards[0]}
@@ -159,15 +165,14 @@ export default function Home() {
       </div>
 
       <div className="can-card can-card--overlay can-card--middle home-reveal" data-reveal="scale">
-
-        <img src={can2} alt={t.canCards[1]} />
+        <SmartImage src={can2} alt={t.canCards[1]} sizes="(max-width: 600px) 50vw, 33vw" />
         <div className="can-overlay">
           <p className="can-overlay-text">{t.canCards[1]}</p>
         </div>
       </div>
 
       <div className="can-card can-card--overlay home-reveal" data-reveal="scale">
-        <img src={can3} alt={t.canCards[2]} />
+        <SmartImage src={can3} alt={t.canCards[2]} sizes="(max-width: 600px) 50vw, 33vw" />
         <div className="can-overlay">
           <p className="can-overlay-text">
             {t.canCards[2]}
@@ -189,7 +194,9 @@ export default function Home() {
   </div>
 </section>
 
-<BlogHome />
+<Suspense fallback={<section className="bloghome bloghome--loading" aria-hidden="true" />}>
+  <BlogHome />
+</Suspense>
 
 
 

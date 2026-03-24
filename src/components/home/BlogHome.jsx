@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import SmartImage from "../common/SmartImage";
 import { getPosts } from "../../data/posts";
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -90,7 +91,12 @@ export default function BlogHome() {
               aria-label={t.prev}
             />
 
-            <img className="bloghome-img" src={item.cover} alt={item.title} />
+            <SmartImage
+              className="bloghome-img"
+              src={item.cover}
+              alt={item.title}
+              sizes="(max-width: 600px) 100vw, (max-width: 980px) 520px, 600px"
+            />
 
             <div className="bloghome-overlay">
               <div className="bloghome-cardtitle">{item.title}</div>

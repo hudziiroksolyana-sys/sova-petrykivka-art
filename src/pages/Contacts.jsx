@@ -69,6 +69,13 @@ export default function Contacts() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
+    document.body.classList.add("page-contacts");
+    return () => {
+      document.body.classList.remove("page-contacts");
+    };
+  }, []);
+
+  useEffect(() => {
     const root = contactsRef.current;
     if (!root) return undefined;
     const revealItems = Array.from(root.querySelectorAll(".contacts-reveal"));
