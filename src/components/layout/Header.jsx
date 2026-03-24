@@ -13,7 +13,6 @@ export default function Header({ menuOpen, onMenuToggle }) {
   const location = useLocation();
   const { language, setLanguage } = useLanguage();
   const t = translations[language].header;
-  const isGalleryPage = location.pathname === "/gallery";
 
   const handleCartOpen = () => {
     if (location.pathname === "/shop") {
@@ -51,7 +50,7 @@ export default function Header({ menuOpen, onMenuToggle }) {
   }, []);
 
   return (
-    <header className={`header${isGalleryPage ? " header--glass-strong" : ""}`}>
+    <header className="header">
       <div className="header-container">
 
         <div className="header-left">
