@@ -22,6 +22,10 @@ export default function Home() {
   const [canAtEnd, setCanAtEnd] = useState(false);
   const { language } = useLanguage();
   const t = translations[language].home;
+  const aboutLinkText =
+    language === "uk"
+      ? "Дізнатися більше про майстерню та Наталію можна на сторінці Про нас."
+      : "Learn more about the studio and Nataliia on the About page.";
 
   const scrollCanGrid = (direction) => {
     const grid = canGridRef.current;
@@ -95,6 +99,17 @@ export default function Home() {
             <p className="hero-subtitle">
               {t.subtitle}
             </p>
+
+            <div className="hero-seo-text" aria-label={language === "uk" ? "Опис майстерні" : "Studio description"}>
+              {t.seoIntro.map((paragraph) => (
+                <p key={paragraph} className="hero-seo-paragraph">
+                  {paragraph}
+                </p>
+              ))}
+              <p className="hero-seo-paragraph">
+                {aboutLinkText} <Link to="/about">/about</Link>
+              </p>
+            </div>
 
             <div className="hero-meta" aria-label={t.heroMetaLabel}>
               {t.heroMeta.map((item) => (

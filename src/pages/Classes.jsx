@@ -12,6 +12,10 @@ const classesContent = {
   uk: {
     title: "Майстер-класи",
     subtitle: "Створи щось красиве власноруч. Доторкнись до українського мистецтва.",
+    seoIntro: [
+      "Майстер-класи з Петриківського розпису від SOVA створені для початківців, дітей і дорослих, які хочуть навчитися українському декоративному розпису крок за кроком.",
+      "Тут можна знайти заняття у Шотландії та онлайн, дізнатися про формати навчання, записатися на урок і ближче познайомитися з традицією Петриківського розпису.",
+    ],
     prevWorkshop: "Попередній майстер-клас",
     nextWorkshop: "Наступний майстер-клас",
     enroll: "Записатись",
@@ -64,6 +68,10 @@ const classesContent = {
   en: {
     title: "Workshops",
     subtitle: "Create something beautiful by hand. Experience Ukrainian art up close.",
+    seoIntro: [
+      "SOVA Petrykivka painting workshops are designed for beginners, children, and adults who want to learn Ukrainian decorative painting step by step.",
+      "Here you can explore workshop formats in Scotland and online, book a class, and discover the tradition of Petrykivka painting through guided practice.",
+    ],
     prevWorkshop: "Previous workshop",
     nextWorkshop: "Next workshop",
     enroll: "Book now",
@@ -118,6 +126,10 @@ const classesContent = {
 export default function Classes() {
   const { language } = useLanguage();
   const t = useMemo(() => classesContent[language], [language]);
+  const aboutLinkText =
+    language === "uk"
+      ? "Хочете більше дізнатися про майстерню та Наталію?"
+      : "Want to learn more about the studio and Nataliia?";
   const location = useLocation();
   const classesRef = useRef(null);
   const moreGridRef = useRef(null);
@@ -249,6 +261,14 @@ export default function Classes() {
         <div className="classes-title-container">
           <h1 className="classes-title-text">{t.title}</h1>
           <p className="classes-title-subtitle">{t.subtitle}</p>
+          <div className="classes-seo-text" aria-label={language === "uk" ? "Опис майстер-класів" : "Workshops description"}>
+            {t.seoIntro.map((paragraph) => (
+              <p key={paragraph} className="classes-seo-paragraph">{paragraph}</p>
+            ))}
+            <p className="classes-seo-paragraph">
+              {aboutLinkText} <Link to="/about">/about</Link>
+            </p>
+          </div>
           <div className="classes-title-divider" />
         </div>
       </section>
