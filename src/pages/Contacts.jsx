@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import facebookIcon from "../assets/icons/facebook3.png";
 import instagramIcon from "../assets/icons/instagram3.png";
 import { sendLead } from "../lib/leadApi";
@@ -59,10 +58,6 @@ const contactsText = {
 export default function Contacts() {
   const { language } = useLanguage();
   const t = useMemo(() => contactsText[language], [language]);
-  const aboutLinkText =
-    language === "uk"
-      ? "Більше про майстерню та Наталію:"
-      : "More about the studio and Nataliia:";
   const SUCCESS_HOLD_MS = 3000;
   const SUCCESS_FADE_MS = 700;
   const contactsRef = useRef(null);
@@ -239,9 +234,6 @@ export default function Contacts() {
                     {index < t.contactText.length - 1 ? <br /> : null}
                   </span>
                 ))}
-              </p>
-              <p className="contacts-info-text home-reveal contacts-reveal" data-reveal="up">
-                {aboutLinkText} <Link to="/about">/about</Link>
               </p>
 
               <div className="contacts-info-list">

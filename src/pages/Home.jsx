@@ -23,10 +23,6 @@ export default function Home() {
   const { language } = useLanguage();
   const t = translations[language].home;
   const seoIntro = Array.isArray(t?.seoIntro) ? t.seoIntro : [];
-  const aboutLinkText =
-    language === "uk"
-      ? "Дізнатися більше про майстерню та Наталію можна на сторінці Про нас."
-      : "Learn more about the studio and Nataliia on the About page.";
 
   const scrollCanGrid = (direction) => {
     const grid = canGridRef.current;
@@ -107,9 +103,6 @@ export default function Home() {
                   {paragraph}
                 </p>
               ))}
-              <p className="hero-seo-paragraph">
-                {aboutLinkText} <Link to="/about">/about</Link>
-              </p>
             </div>
 
             <div className="hero-meta" aria-label={t.heroMetaLabel}>

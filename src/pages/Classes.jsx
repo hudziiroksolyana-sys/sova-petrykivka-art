@@ -126,10 +126,6 @@ const classesContent = {
 export default function Classes() {
   const { language } = useLanguage();
   const t = useMemo(() => classesContent[language], [language]);
-  const aboutLinkText =
-    language === "uk"
-      ? "Хочете більше дізнатися про майстерню та Наталію?"
-      : "Want to learn more about the studio and Nataliia?";
   const location = useLocation();
   const classesRef = useRef(null);
   const moreGridRef = useRef(null);
@@ -265,9 +261,6 @@ export default function Classes() {
             {t.seoIntro.map((paragraph) => (
               <p key={paragraph} className="classes-seo-paragraph">{paragraph}</p>
             ))}
-            <p className="classes-seo-paragraph">
-              {aboutLinkText} <Link to="/about">/about</Link>
-            </p>
           </div>
           <div className="classes-title-divider" />
         </div>
