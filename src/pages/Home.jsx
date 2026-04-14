@@ -22,6 +22,7 @@ export default function Home() {
   const [canAtEnd, setCanAtEnd] = useState(false);
   const { language } = useLanguage();
   const t = translations[language].home;
+  const seoIntro = Array.isArray(t?.seoIntro) ? t.seoIntro : [];
   const aboutLinkText =
     language === "uk"
       ? "Дізнатися більше про майстерню та Наталію можна на сторінці Про нас."
@@ -101,7 +102,7 @@ export default function Home() {
             </p>
 
             <div className="hero-seo-text" aria-label={language === "uk" ? "Опис майстерні" : "Studio description"}>
-              {t.seoIntro.map((paragraph) => (
+              {seoIntro.map((paragraph) => (
                 <p key={paragraph} className="hero-seo-paragraph">
                   {paragraph}
                 </p>
