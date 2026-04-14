@@ -257,11 +257,6 @@ export default function Classes() {
         <div className="classes-title-container">
           <h1 className="classes-title-text">{t.title}</h1>
           <p className="classes-title-subtitle">{t.subtitle}</p>
-          <div className="classes-seo-text" aria-label={language === "uk" ? "Опис майстер-класів" : "Workshops description"}>
-            {t.seoIntro.map((paragraph) => (
-              <p key={paragraph} className="classes-seo-paragraph">{paragraph}</p>
-            ))}
-          </div>
           <div className="classes-title-divider" />
         </div>
       </section>
